@@ -1,11 +1,11 @@
 package gcf
 
-type repeatIteratable[T any] struct {
+type repeatIteratableIteratable[T any] struct {
 	itb   Iteratable[T]
 	count int
 }
 
-type repeatIterator[T any] struct {
+type repeatIteratableIterator[T any] struct {
 	genIt   func() Iterator[T]
 	it      Iterator[T]
 	count   int
@@ -13,22 +13,30 @@ type repeatIterator[T any] struct {
 	current T
 }
 
-func Repeat[T any](itb Iteratable[T], count int) Iteratable[T] {
-	if itb == nil {
-		itb = empty[T]()
-		count = 0
-	}
-	if count == 1 {
+// RepeatIteratable makes Iteratable that repeat elements in itb a count times.
+//
+//   s := []int{1, 2, 3}
+//   itb := gcf.FromSlice(s)
+//   itb = gcf.RepeatIteratable(itb, 3)
+//
+// If count is 0 or negative, return Iteratable with no element.
+func RepeatIteratable[T any](itb Iteratable[T], count int) Iteratable[T] {
+	switch {
+	case itb == nil:
+		return empty[T]()
+	case count < 1:
+		return empty[T]()
+	case count == 1:
 		return itb
 	}
-	return &repeatIteratable[T]{itb, count}
+	return &repeatIteratableIteratable[T]{itb, count}
 }
 
-func (itb *repeatIteratable[T]) Iterator() Iterator[T] {
-	return &repeatIterator[T]{itb.itb.Iterator, itb.itb.Iterator(), itb.count, 0, zero[T]()}
+func (itb *repeatIteratableIteratable[T]) Iterator() Iterator[T] {
+	return &repeatIteratableIterator[T]{itb.itb.Iterator, itb.itb.Iterator(), itb.count, 0, zero[T]()}
 }
 
-func (it *repeatIterator[T]) MoveNext() bool {
+func (it *repeatIteratableIterator[T]) MoveNext() bool {
 	if it.i >= it.count {
 		return false
 	}
@@ -44,6 +52,6 @@ func (it *repeatIterator[T]) MoveNext() bool {
 	return false
 }
 
-func (it *repeatIterator[T]) Current() T {
+func (it *repeatIteratableIterator[T]) Current() T {
 	return it.current
 }
