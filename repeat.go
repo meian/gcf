@@ -1,5 +1,17 @@
 package gcf
 
+type repeatIteratable[T any] struct {
+	v     T
+	count int
+}
+
+type repeatIterator[T any] struct {
+	v       T
+	count   int
+	i       int
+	current T
+}
+
 type repeatIteratableIteratable[T any] struct {
 	itb   Iteratable[T]
 	count int
@@ -11,6 +23,39 @@ type repeatIteratableIterator[T any] struct {
 	count   int
 	i       int
 	current T
+}
+
+// Repeat makes Iteratable that repeat v a count times.
+//
+//   itb = gcf.Repeat(1, 3)
+//
+// If count is 0 or negative, return Iteratable with no element.
+func Repeat[T any](v T, count int) Iteratable[T] {
+	switch {
+	case count < 1:
+		return empty[T]()
+	case count == 1:
+		return FromSlice([]T{v})
+	}
+	return &repeatIteratable[T]{v, count}
+}
+
+func (itb *repeatIteratable[T]) Iterator() Iterator[T] {
+	return &repeatIterator[T]{itb.v, itb.count, 0, zero[T]()}
+}
+
+func (it *repeatIterator[T]) MoveNext() bool {
+	if it.i >= it.count {
+		it.current = zero[T]()
+		return false
+	}
+	it.current = it.v
+	it.i++
+	return true
+}
+
+func (it *repeatIterator[T]) Current() T {
+	return it.current
 }
 
 // RepeatIteratable makes Iteratable that repeat elements in itb a count times.
