@@ -111,6 +111,16 @@ func TestRepeatIterable(t *testing.T) {
 			assert.Equal(tt.want, s)
 		})
 	}
+
+	// for coverage
+	t.Run("more move test", func(t *testing.T) {
+		itb := gcf.FromSlice([]int{1, 2, 3})
+		itb = gcf.RepeatIterable(itb, 2)
+		it := itb.Iterator()
+		for it.MoveNext() {
+		}
+		assert.False(t, it.MoveNext())
+	})
 }
 
 func ExampleRepeatIterable() {
