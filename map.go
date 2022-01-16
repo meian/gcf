@@ -1,7 +1,7 @@
 package gcf
 
-type mapIteratable[T any, R any] struct {
-	itb      Iteratable[T]
+type mapIterable[T any, R any] struct {
+	itb      Iterable[T]
 	selector func(T) R
 }
 
@@ -11,7 +11,7 @@ type mapIterator[T any, R any] struct {
 	current  R
 }
 
-func Map[T any, R any](itb Iteratable[T], f func(T) R) Iteratable[R] {
+func Map[T any, R any](itb Iterable[T], f func(T) R) Iterable[R] {
 	if itb == nil {
 		itb = empty[T]()
 	}
@@ -19,10 +19,10 @@ func Map[T any, R any](itb Iteratable[T], f func(T) R) Iteratable[R] {
 		r := zero[R]()
 		f = func(v T) R { return r }
 	}
-	return &mapIteratable[T, R]{itb, f}
+	return &mapIterable[T, R]{itb, f}
 }
 
-func (itb *mapIteratable[T, R]) Iterator() Iterator[R] {
+func (itb *mapIterable[T, R]) Iterator() Iterator[R] {
 	return &mapIterator[T, R]{itb.itb.Iterator(), itb.selector, zero[R]()}
 }
 

@@ -1,7 +1,7 @@
 package gcf
 
-// Iteratable provide Iterator creation.
-type Iteratable[T any] interface {
+// Iterable provide Iterator creation.
+type Iterable[T any] interface {
 	// Iterator create Iterator[T] instance.
 	Iterator() Iterator[T]
 }
@@ -21,7 +21,7 @@ type Iterator[T any] interface {
 	MoveNext() bool
 	// Current return current element value.
 	//
-	// Return current value if iteratable position or should get zero value if out of iteratable position.
+	// Return current value if iterable position or should get zero value if out of iterable position.
 	// Note that return zero value before MoveNext is called.
 	Current() T
 }

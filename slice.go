@@ -1,6 +1,6 @@
 package gcf
 
-type sliceIteratable[T any] struct {
+type sliceIterable[T any] struct {
 	slice []T
 }
 
@@ -10,32 +10,32 @@ type sliceIterator[T any] struct {
 	i     int
 }
 
-// FromSlice make Iteratable from slice.
+// FromSlice make Iterable from slice.
 //
 //   s := []int{1, 2, 3}
 //   itb := gcf.FromSlice(s)
 //
 // By change elements in base slice afrer this called, change is affected to Iterator.
 // If you want no affects by change, you can use FromSliceImmutable.
-func FromSlice[T any](s []T) Iteratable[T] {
+func FromSlice[T any](s []T) Iterable[T] {
 	if s == nil {
 		s = []T{}
 	}
-	return &sliceIteratable[T]{s}
+	return &sliceIterable[T]{s}
 }
 
-// FromSliceImmutable make Iteratable from slice with immutable.
+// FromSliceImmutable make Iterable from slice with immutable.
 //
 //   s := []int{1, 2, 3}
 //   itb := gcf.FromSliceImmutable(s)
 //
 // Input slice is duplicated to make immutable, so have some performance bottleneck.
-func FromSliceImmutable[T any](s []T) Iteratable[T] {
+func FromSliceImmutable[T any](s []T) Iterable[T] {
 	ss := make([]T, 0, len(s))
-	return &sliceIteratable[T]{append(ss, s...)}
+	return &sliceIterable[T]{append(ss, s...)}
 }
 
-func (itb *sliceIteratable[T]) Iterator() Iterator[T] {
+func (itb *sliceIterable[T]) Iterator() Iterator[T] {
 	return &sliceIterator[T]{itb.slice, len(itb.slice), 0}
 }
 
@@ -54,10 +54,10 @@ func (it *sliceIterator[T]) Current() T {
 	return it.slice[it.i-1]
 }
 
-// ToSlice makes slice of elements listed in Iteratable.
-func ToSlice[T any](itb Iteratable[T]) []T {
-	// shortcut for sliceIteratable
-	if sitb, ok := itb.(*sliceIteratable[T]); ok {
+// ToSlice makes slice of elements listed in Iterable.
+func ToSlice[T any](itb Iterable[T]) []T {
+	// shortcut for sliceIterable
+	if sitb, ok := itb.(*sliceIterable[T]); ok {
 		ss := make([]T, 0, len(sitb.slice))
 		return append(ss, sitb.slice...)
 	}
@@ -74,6 +74,6 @@ func zero[T any]() T {
 	return v
 }
 
-func empty[T any]() Iteratable[T] {
+func empty[T any]() Iterable[T] {
 	return FromSliceImmutable([]T{})
 }
