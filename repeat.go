@@ -1,6 +1,6 @@
 package gcf
 
-type repeatIteratable[T any] struct {
+type repeatIterable[T any] struct {
 	v     T
 	count int
 }
@@ -12,12 +12,12 @@ type repeatIterator[T any] struct {
 	current T
 }
 
-type repeatIteratableIteratable[T any] struct {
-	itb   Iteratable[T]
+type repeatIterableIterable[T any] struct {
+	itb   Iterable[T]
 	count int
 }
 
-type repeatIteratableIterator[T any] struct {
+type repeatIterableIterator[T any] struct {
 	genIt   func() Iterator[T]
 	it      Iterator[T]
 	count   int
@@ -25,22 +25,22 @@ type repeatIteratableIterator[T any] struct {
 	current T
 }
 
-// Repeat makes Iteratable that repeat v a count times.
+// Repeat makes Iterable that repeat v a count times.
 //
 //   itb = gcf.Repeat(1, 3)
 //
-// If count is 0 or negative, return Iteratable with no element.
-func Repeat[T any](v T, count int) Iteratable[T] {
+// If count is 0 or negative, return Iterable with no element.
+func Repeat[T any](v T, count int) Iterable[T] {
 	switch {
 	case count < 1:
 		return empty[T]()
 	case count == 1:
 		return FromSlice([]T{v})
 	}
-	return &repeatIteratable[T]{v, count}
+	return &repeatIterable[T]{v, count}
 }
 
-func (itb *repeatIteratable[T]) Iterator() Iterator[T] {
+func (itb *repeatIterable[T]) Iterator() Iterator[T] {
 	return &repeatIterator[T]{itb.v, itb.count, 0, zero[T]()}
 }
 
@@ -58,14 +58,14 @@ func (it *repeatIterator[T]) Current() T {
 	return it.current
 }
 
-// RepeatIteratable makes Iteratable that repeat elements in itb a count times.
+// RepeatIterable makes Iterable that repeat elements in itb a count times.
 //
 //   s := []int{1, 2, 3}
 //   itb := gcf.FromSlice(s)
-//   itb = gcf.RepeatIteratable(itb, 3)
+//   itb = gcf.RepeatIterable(itb, 3)
 //
-// If count is 0 or negative, return Iteratable with no element.
-func RepeatIteratable[T any](itb Iteratable[T], count int) Iteratable[T] {
+// If count is 0 or negative, return Iterable with no element.
+func RepeatIterable[T any](itb Iterable[T], count int) Iterable[T] {
 	switch {
 	case itb == nil:
 		return empty[T]()
@@ -74,14 +74,14 @@ func RepeatIteratable[T any](itb Iteratable[T], count int) Iteratable[T] {
 	case count == 1:
 		return itb
 	}
-	return &repeatIteratableIteratable[T]{itb, count}
+	return &repeatIterableIterable[T]{itb, count}
 }
 
-func (itb *repeatIteratableIteratable[T]) Iterator() Iterator[T] {
-	return &repeatIteratableIterator[T]{itb.itb.Iterator, itb.itb.Iterator(), itb.count, 0, zero[T]()}
+func (itb *repeatIterableIterable[T]) Iterator() Iterator[T] {
+	return &repeatIterableIterator[T]{itb.itb.Iterator, itb.itb.Iterator(), itb.count, 0, zero[T]()}
 }
 
-func (it *repeatIteratableIterator[T]) MoveNext() bool {
+func (it *repeatIterableIterator[T]) MoveNext() bool {
 	if it.i >= it.count {
 		return false
 	}
@@ -97,6 +97,6 @@ func (it *repeatIteratableIterator[T]) MoveNext() bool {
 	return false
 }
 
-func (it *repeatIteratableIterator[T]) Current() T {
+func (it *repeatIterableIterator[T]) Current() T {
 	return it.current
 }

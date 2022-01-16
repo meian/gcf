@@ -69,11 +69,11 @@ go get -d github.com/meian/gcf
 gcfは `Iterator` パターンによって処理を連携するよう構成されています。  
 いくつかの処理では内部で追加のメモリアロケーションを行うこともありますが、大半の処理では処理途中で不必要なメモリのアロケーションが発生しないようになっています。
 
-### Iteratable + Iterator
+### Iterable + Iterator
 
-gcf の各関数は `Iteratable[T]` のインターフェイスを持ち、これは `Iterator()` によって `Iterator[T]` を生成する機能のみを持ちます。
+gcf の各関数は `Iterable[T]` のインターフェイスを持ち、これは `Iterator()` によって `Iterator[T]` を生成する機能のみを持ちます。
 `Iterator[T]` は `MoveNext()` によってコレクションから取得できる要素を次の要素に移動し、`Current()` によって現在の位置の要素を取得します。  
-`Iteratable[T]` によって操作を合成し、状態はそこから生成される `Iterator[T]` にのみ保持されることで、生成した操作を再利用しやすくなることを念頭に置いています。
+`Iterable[T]` によって操作を合成し、状態はそこから生成される `Iterator[T]` にのみ保持されることで、生成した操作を再利用しやすくなることを念頭に置いています。
 
 ### MoveNext + Current
 
@@ -114,8 +114,8 @@ gcfのパフォーマンスは以下の特性を持っています。
 - `Map`
 - `Concat`
 - `Repeat`
-  - これは `Repeat[T](v T, count int) Iteratable[T]` に作り直す予定
-  - Iteratableを繰り返す処理は別名で提供を検討
+  - これは `Repeat[T](v T, count int) Iterable[T]` に作り直す予定
+  - Iterableを繰り返す処理は別名で提供を検討
 
 ### 今後提供予定
 
@@ -140,8 +140,8 @@ gcfのパフォーマンスは以下の特性を持っています。
   - 先頭から指定した件数を除く
 - `SkipLast`
   - 末尾から指定した件数を除く
-- `RepeatIteratable`
-  - Iteratableの内容を繰り返す
+- `RepeatIterable`
+  - Iterableの内容を繰り返す
 - channel系の機能
-  - channelからIteratableを作成
-  - Iteratableの結果をchannelで取得
+  - channelからIterableを作成
+  - Iterableの結果をchannelで取得

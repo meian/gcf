@@ -54,7 +54,7 @@ func TestFilter(t *testing.T) {
 		})
 	}
 
-	t.Run("nil iteratable", func(t *testing.T) {
+	t.Run("nil iterable", func(t *testing.T) {
 		itb := gcf.Filter(nil, func(v int) bool { return true })
 		assert.Equal(t, []int{}, gcf.ToSlice(itb))
 	})

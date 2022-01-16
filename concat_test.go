@@ -13,8 +13,8 @@ func TestConcat(t *testing.T) {
 	itbe := gcf.FromSlice[int](nil)
 	tests := []struct {
 		name string
-		itb1 gcf.Iteratable[int]
-		itb2 gcf.Iteratable[int]
+		itb1 gcf.Iterable[int]
+		itb2 gcf.Iterable[int]
 		want []int
 	}{
 		{

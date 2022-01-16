@@ -1,8 +1,8 @@
 package gcf
 
-type concatIteratable[T any] struct {
-	itb1 Iteratable[T]
-	itb2 Iteratable[T]
+type concatIterable[T any] struct {
+	itb1 Iterable[T]
+	itb2 Iterable[T]
 }
 
 type concatIterator[T any] struct {
@@ -11,17 +11,17 @@ type concatIterator[T any] struct {
 	current T
 }
 
-func Concat[T any](itb1 Iteratable[T], itb2 Iteratable[T]) Iteratable[T] {
+func Concat[T any](itb1 Iterable[T], itb2 Iterable[T]) Iterable[T] {
 	if itb1 == nil {
 		itb1 = empty[T]()
 	}
 	if itb2 == nil {
 		itb2 = empty[T]()
 	}
-	return &concatIteratable[T]{itb1, itb2}
+	return &concatIterable[T]{itb1, itb2}
 }
 
-func (itb *concatIteratable[T]) Iterator() Iterator[T] {
+func (itb *concatIterable[T]) Iterator() Iterator[T] {
 	return &concatIterator[T]{itb.itb1.Iterator(), itb.itb2.Iterator(), zero[T]()}
 }
 

@@ -1,7 +1,7 @@
 package gcf
 
-type filterIteratable[T any] struct {
-	itb       Iteratable[T]
+type filterIterable[T any] struct {
+	itb       Iterable[T]
 	predicate func(v T) bool
 }
 
@@ -11,7 +11,7 @@ type filterIterator[T any] struct {
 	current   T
 }
 
-func Filter[T any](itb Iteratable[T], predicate func(v T) bool) Iteratable[T] {
+func Filter[T any](itb Iterable[T], predicate func(v T) bool) Iterable[T] {
 	if itb == nil {
 		itb = empty[T]()
 	}
@@ -20,10 +20,10 @@ func Filter[T any](itb Iteratable[T], predicate func(v T) bool) Iteratable[T] {
 			return true
 		}
 	}
-	return &filterIteratable[T]{itb, predicate}
+	return &filterIterable[T]{itb, predicate}
 }
 
-func (itb *filterIteratable[T]) Iterator() Iterator[T] {
+func (itb *filterIterable[T]) Iterator() Iterator[T] {
 	return &filterIterator[T]{itb.itb.Iterator(), itb.predicate, zero[T]()}
 }
 

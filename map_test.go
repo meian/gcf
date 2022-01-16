@@ -13,7 +13,7 @@ func TestMap(t *testing.T) {
 	mf := func(s string) int { return len(s) }
 	tests := []struct {
 		name    string
-		itb     gcf.Iteratable[string]
+		itb     gcf.Iterable[string]
 		mapFunc func(string) int
 		want    []int
 	}{
@@ -24,13 +24,13 @@ func TestMap(t *testing.T) {
 			want:    []int{1, 2, 3},
 		},
 		{
-			name:    "empty iteratable",
+			name:    "empty iterable",
 			itb:     itbe,
 			mapFunc: mf,
 			want:    []int{},
 		},
 		{
-			name:    "nil iteratable",
+			name:    "nil iterable",
 			itb:     nil,
 			mapFunc: mf,
 			want:    []int{},

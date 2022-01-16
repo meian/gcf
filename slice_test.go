@@ -99,7 +99,7 @@ func TestFromSliceImmutable(t *testing.T) {
 	s := []string{"a", "b", "c", "d", "e"}
 	tests := []struct {
 		name    string
-		genIter func([]string) gcf.Iteratable[string]
+		genIter func([]string) gcf.Iterable[string]
 		want    string
 	}{
 		{
@@ -141,7 +141,7 @@ func TestFromSliceImmutable(t *testing.T) {
 }
 
 func TestToSlice(t *testing.T) {
-	// test for coverage "shortcut for sliceIteratable"
+	// test for coverage "shortcut for sliceIterable"
 	s := []uint16{2, 3, 4, 5, 6}
 	itb := gcf.FromSlice(s)
 	ss := gcf.ToSlice(itb)
