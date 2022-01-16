@@ -114,8 +114,7 @@ gcfのパフォーマンスは以下の特性を持っています。
 - `Map`
 - `Concat`
 - `Repeat`
-  - これは `Repeat[T](v T, count int) Iterable[T]` に作り直す予定
-  - Iterableを繰り返す処理は別名で提供を検討
+- `RepeatIterable`
 
 ### 今後提供予定
 
@@ -140,8 +139,6 @@ gcfのパフォーマンスは以下の特性を持っています。
   - 先頭から指定した件数を除く
 - `SkipLast`
   - 末尾から指定した件数を除く
-- `RepeatIterable`
-  - Iterableの内容を繰り返す
 - channel系の機能
   - channelからIterableを作成
   - Iterableの結果をchannelで取得
