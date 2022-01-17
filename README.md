@@ -52,7 +52,7 @@ Replacing inline processing with gcf will significantly reduce the performance, 
 
 Since gcf uses Generics, this version is currently in Beta status, but you need version 1.18 to use it.  
 We also have a container usage environment for vscode that you can use if you do not want to install Go 1.18 in your local environment.  
-(See below [.devcontainer] (https://github.com/meian/gcf/tree/main/.devcontainer))
+(See below [.devcontainer](https://github.com/meian/gcf/tree/main/.devcontainer))
 
 ## Installation
 
