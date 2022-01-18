@@ -10,7 +10,7 @@ type sliceIterator[T any] struct {
 	i     int
 }
 
-// FromSlice make Iterable from slice.
+// FromSlice makes Iterable from slice.
 //
 //   s := []int{1, 2, 3}
 //   itb := gcf.FromSlice(s)
@@ -24,7 +24,7 @@ func FromSlice[T any](s []T) Iterable[T] {
 	return &sliceIterable[T]{s}
 }
 
-// FromSliceImmutable make Iterable from slice with immutable.
+// FromSliceImmutable makes Iterable from slice with immutable.
 //
 //   s := []int{1, 2, 3}
 //   itb := gcf.FromSliceImmutable(s)
