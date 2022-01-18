@@ -10,7 +10,7 @@ type sliceIterator[T any] struct {
 	i     int
 }
 
-// FromSlice make Iterable from slice.
+// FromSlice makes Iterable from slice.
 //
 //   s := []int{1, 2, 3}
 //   itb := gcf.FromSlice(s)
@@ -24,7 +24,7 @@ func FromSlice[T any](s []T) Iterable[T] {
 	return &sliceIterable[T]{s}
 }
 
-// FromSliceImmutable make Iterable from slice with immutable.
+// FromSliceImmutable makes Iterable from slice with immutable.
 //
 //   s := []int{1, 2, 3}
 //   itb := gcf.FromSliceImmutable(s)
@@ -55,6 +55,9 @@ func (it *sliceIterator[T]) Current() T {
 }
 
 // ToSlice makes slice of elements listed in Iterable.
+//
+//   itb := gcf.FromSlice([]int{1, 2, 3})
+//   s := gcf.ToSlice(itb)
 func ToSlice[T any](itb Iterable[T]) []T {
 	// shortcut for sliceIterable
 	if sitb, ok := itb.(*sliceIterable[T]); ok {

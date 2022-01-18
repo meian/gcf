@@ -11,6 +11,11 @@ type concatIterator[T any] struct {
 	current T
 }
 
+// Concat makes Iterable elements concatenated of itb1 and itb2.
+//
+//   itb1 := gcf.FromSlice([]int{1, 2, 3})
+//   itb2 := gcf.FromSlice([]int{4, 5, 6})
+//   itbc := gcf.Concat(itb1, itb2)
 func Concat[T any](itb1 Iterable[T], itb2 Iterable[T]) Iterable[T] {
 	switch {
 	case itb1 == nil && itb2 == nil:

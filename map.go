@@ -11,6 +11,12 @@ type mapIterator[T any, R any] struct {
 	current R
 }
 
+// Map makes Iterable in elements convert by mapFunc.
+//
+//   itbs := gcf.Func([]string{"a", "ab", "abc"})
+//   itbi := gcf.Map(itbs, func(v string) int { return len(v) })
+//
+// If mapFunc is nil, return Iterable in zero value elements.
 func Map[T any, R any](itb Iterable[T], mapFunc func(T) R) Iterable[R] {
 	if itb == nil {
 		return empty[R]()
