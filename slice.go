@@ -55,6 +55,9 @@ func (it *sliceIterator[T]) Current() T {
 }
 
 // ToSlice makes slice of elements listed in Iterable.
+//
+//   itb := gcf.FromSlice([]int{1, 2, 3})
+//   s := gcf.ToSlice(itb)
 func ToSlice[T any](itb Iterable[T]) []T {
 	// shortcut for sliceIterable
 	if sitb, ok := itb.(*sliceIterable[T]); ok {
