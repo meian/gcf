@@ -1,29 +1,29 @@
 package gcf
 
 type mapIterable[T any, R any] struct {
-	itb      Iterable[T]
-	selector func(T) R
+	itb     Iterable[T]
+	mapFunc func(T) R
 }
 
 type mapIterator[T any, R any] struct {
-	it       Iterator[T]
-	selector func(T) R
-	current  R
+	it      Iterator[T]
+	mapFunc func(T) R
+	current R
 }
 
-func Map[T any, R any](itb Iterable[T], f func(T) R) Iterable[R] {
+func Map[T any, R any](itb Iterable[T], mapFunc func(T) R) Iterable[R] {
 	if itb == nil {
 		itb = empty[T]()
 	}
-	if f == nil {
+	if mapFunc == nil {
 		r := zero[R]()
-		f = func(v T) R { return r }
+		mapFunc = func(v T) R { return r }
 	}
-	return &mapIterable[T, R]{itb, f}
+	return &mapIterable[T, R]{itb, mapFunc}
 }
 
 func (itb *mapIterable[T, R]) Iterator() Iterator[R] {
-	return &mapIterator[T, R]{itb.itb.Iterator(), itb.selector, zero[R]()}
+	return &mapIterator[T, R]{itb.itb.Iterator(), itb.mapFunc, zero[R]()}
 }
 
 func (it *mapIterator[T, R]) MoveNext() bool {
@@ -31,7 +31,7 @@ func (it *mapIterator[T, R]) MoveNext() bool {
 		it.current = zero[R]()
 		return false
 	}
-	it.current = it.selector(it.it.Current())
+	it.current = it.mapFunc(it.it.Current())
 	return true
 }
 
