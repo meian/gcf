@@ -11,6 +11,12 @@ type filterIterator[T any] struct {
 	current   T
 }
 
+// Filter makes Iterable contains elements which predicate is true.
+//
+//   itb := gcf.FromSlice([]int{1, 2, 3})
+//   itb = gcf.Filter(itb, func(v int) bool { return v%2 > 0 })
+//
+// If predicate is nil, return original Iteratable.
 func Filter[T any](itb Iterable[T], predicate func(v T) bool) Iterable[T] {
 	if itb == nil {
 		return empty[T]()
