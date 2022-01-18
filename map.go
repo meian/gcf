@@ -13,7 +13,7 @@ type mapIterator[T any, R any] struct {
 
 func Map[T any, R any](itb Iterable[T], mapFunc func(T) R) Iterable[R] {
 	if itb == nil {
-		itb = empty[T]()
+		return empty[R]()
 	}
 	if mapFunc == nil {
 		r := zero[R]()
