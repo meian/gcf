@@ -12,11 +12,13 @@ type concatIterator[T any] struct {
 }
 
 func Concat[T any](itb1 Iterable[T], itb2 Iterable[T]) Iterable[T] {
-	if itb1 == nil {
-		itb1 = empty[T]()
-	}
-	if itb2 == nil {
-		itb2 = empty[T]()
+	switch {
+	case itb1 == nil && itb2 == nil:
+		return empty[T]()
+	case itb2 == nil:
+		return itb1
+	case itb1 == nil:
+		return itb2
 	}
 	return &concatIterable[T]{itb1, itb2}
 }

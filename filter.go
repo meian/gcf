@@ -13,12 +13,10 @@ type filterIterator[T any] struct {
 
 func Filter[T any](itb Iterable[T], predicate func(v T) bool) Iterable[T] {
 	if itb == nil {
-		itb = empty[T]()
+		return empty[T]()
 	}
 	if predicate == nil {
-		predicate = func(v T) bool {
-			return true
-		}
+		return itb
 	}
 	return &filterIterable[T]{itb, predicate}
 }
