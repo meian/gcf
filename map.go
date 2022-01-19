@@ -17,7 +17,7 @@ type mapIterator[T any, R any] struct {
 //   itbi := gcf.Map(itbs, func(v string) int { return len(v) })
 //
 // If mapFunc is nil, return Iterable in zero value elements.
-func Map[T any, R any](itb Iterable[T], mapFunc func(T) R) Iterable[R] {
+func Map[T any, R any](itb Iterable[T], mapFunc func(v T) R) Iterable[R] {
 	if itb == nil {
 		return empty[R]()
 	}
