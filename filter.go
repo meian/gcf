@@ -32,18 +32,15 @@ func (itb *filterIterable[T]) Iterator() Iterator[T] {
 }
 
 func (it *filterIterator[T]) MoveNext() bool {
-	for true {
-		if !it.iterator.MoveNext() {
-			it.current = zero[T]()
-			return false
-		}
+	for it.iterator.MoveNext() {
 		c := it.iterator.Current()
 		if it.predicate(c) {
 			it.current = c
 			return true
 		}
 	}
-	panic("unreachable")
+	it.current = zero[T]()
+	return false
 }
 
 func (it *filterIterator[T]) Current() T {
