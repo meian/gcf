@@ -65,8 +65,7 @@ func ToSlice[T any](itb Iterable[T]) []T {
 		return append(ss, sitb.slice...)
 	}
 	s := make([]T, 0)
-	it := itb.Iterator()
-	for it.MoveNext() {
+	for it := itb.Iterator(); it.MoveNext(); {
 		s = append(s, it.Current())
 	}
 	return s
