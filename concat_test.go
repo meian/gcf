@@ -1,6 +1,7 @@
 package gcf_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/meian/gcf"
@@ -69,4 +70,12 @@ func TestConcat(t *testing.T) {
 			assert.Equal(tt.want, s)
 		})
 	}
+}
+
+func ExampleConcat() {
+	itb1 := gcf.FromSlice([]int{1, 2, 3})
+	itb2 := gcf.FromSlice([]int{5, 6, 7})
+	itb := gcf.Concat(itb1, itb2)
+	fmt.Println(gcf.ToSlice(itb))
+	// [ 1 2 3 5 6 7 ]
 }
