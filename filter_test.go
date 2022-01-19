@@ -1,6 +1,7 @@
 package gcf_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/meian/gcf"
@@ -58,4 +59,18 @@ func TestFilter(t *testing.T) {
 		itb := gcf.Filter(nil, func(v int) bool { return true })
 		assert.Equal(t, []int{}, gcf.ToSlice(itb))
 	})
+}
+
+func ExampleFilter() {
+	s := []string{"dog", "cat", "mouse", "rabbit"}
+	itb := gcf.FromSlice(s)
+	itb = gcf.Filter(itb, func(v string) bool {
+		return len(v) > 3
+	})
+	for it := itb.Iterator(); it.MoveNext(); {
+		fmt.Println(it.Current())
+	}
+	// Output:
+	// mouse
+	// rabbit
 }

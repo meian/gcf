@@ -1,6 +1,7 @@
 package gcf_test
 
 import (
+	"fmt"
 	"testing"
 
 	"github.com/meian/gcf"
@@ -50,4 +51,20 @@ func TestMap(t *testing.T) {
 			assert.Equal(tt.want, s)
 		})
 	}
+}
+
+func ExampleMap() {
+	s := []string{"dog", "cat", "mouse", "rabbit"}
+	itb := gcf.FromSlice(s)
+	itbs := gcf.Map(itb, func(v string) string {
+		return fmt.Sprintf("%s:%d", v, len(v))
+	})
+	for it := itbs.Iterator(); it.MoveNext(); {
+		fmt.Println(it.Current())
+	}
+	// Output:
+	// dog:3
+	// cat:3
+	// mouse:5
+	// rabbit:6
 }

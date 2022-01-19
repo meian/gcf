@@ -40,7 +40,7 @@ itb = gcf.Map(itb, func(v int) int {
 })
 
 // Get the processing result as a slice
-r := itb.ToSlice(itb)
+r := gcf.ToSlice(itb)
 ```
 
 This example is meant to show how to use it briefly.  
