@@ -39,6 +39,11 @@ func TestDistinct(t *testing.T) {
 			itb:  nil,
 			want: []int{},
 		},
+		{
+			name: "Distinct",
+			itb:  gcf.Distinct(gcf.FromSlice([]int{1, 2, 3, 2})),
+			want: []int{1, 2, 3},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -47,12 +52,6 @@ func TestDistinct(t *testing.T) {
 			assert.ElementsMatch(t, tt.want, s)
 		})
 	}
-	t.Run("distinct in distinct", func(t *testing.T) {
-		itb := gcf.FromSlice([]string{"a", "d", "c", "b", "d"})
-		itb = gcf.Distinct(itb)
-		itb = gcf.Distinct(itb)
-		assert.ElementsMatch(t, []string{"a", "b", "c", "d"}, gcf.ToSlice(itb))
-	})
 }
 
 func ExampleDistinct() {
