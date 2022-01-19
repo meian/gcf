@@ -9,6 +9,7 @@ type filterIterator[T any] struct {
 	iterator  Iterator[T]
 	predicate func(v T) bool
 	current   T
+	done      bool
 }
 
 // Filter makes Iterable contains elements which predicate is true.
@@ -28,10 +29,13 @@ func Filter[T any](itb Iterable[T], predicate func(v T) bool) Iterable[T] {
 }
 
 func (itb *filterIterable[T]) Iterator() Iterator[T] {
-	return &filterIterator[T]{itb.itb.Iterator(), itb.predicate, zero[T]()}
+	return &filterIterator[T]{itb.itb.Iterator(), itb.predicate, zero[T](), false}
 }
 
 func (it *filterIterator[T]) MoveNext() bool {
+	if it.done {
+		return false
+	}
 	for it.iterator.MoveNext() {
 		c := it.iterator.Current()
 		if it.predicate(c) {
@@ -40,6 +44,7 @@ func (it *filterIterator[T]) MoveNext() bool {
 		}
 	}
 	it.current = zero[T]()
+	it.done = true
 	return false
 }
 
