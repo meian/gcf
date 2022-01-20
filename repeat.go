@@ -12,19 +12,6 @@ type repeatIterator[T any] struct {
 	current T
 }
 
-type repeatIterableIterable[T any] struct {
-	itb   Iterable[T]
-	count int
-}
-
-type repeatIterableIterator[T any] struct {
-	genIt   func() Iterator[T]
-	it      Iterator[T]
-	count   int
-	i       int
-	current T
-}
-
 // Repeat makes Iterable that repeat v a count times.
 //
 //   itb = gcf.Repeat(1, 3)
@@ -56,6 +43,19 @@ func (it *repeatIterator[T]) MoveNext() bool {
 
 func (it *repeatIterator[T]) Current() T {
 	return it.current
+}
+
+type repeatIterableIterable[T any] struct {
+	itb   Iterable[T]
+	count int
+}
+
+type repeatIterableIterator[T any] struct {
+	genIt   func() Iterator[T]
+	it      Iterator[T]
+	count   int
+	i       int
+	current T
 }
 
 // RepeatIterable makes Iterable that repeat elements in itb a count times.
