@@ -36,7 +36,11 @@ func FromSliceImmutable[T any](s []T) Iterable[T] {
 }
 
 func (itb *sliceIterable[T]) Iterator() Iterator[T] {
-	return &sliceIterator[T]{itb.slice, len(itb.slice), 0}
+	return makeSliceIterator(itb.slice)
+}
+
+func makeSliceIterator[T any](s []T) *sliceIterator[T] {
+	return &sliceIterator[T]{s, len(s), 0}
 }
 
 func (it *sliceIterator[T]) MoveNext() bool {
@@ -64,8 +68,12 @@ func ToSlice[T any](itb Iterable[T]) []T {
 		ss := make([]T, 0, len(sitb.slice))
 		return append(ss, sitb.slice...)
 	}
+	return iteratorToSlice(itb.Iterator())
+}
+
+func iteratorToSlice[T any](it Iterator[T]) []T {
 	s := make([]T, 0)
-	for it := itb.Iterator(); it.MoveNext(); {
+	for it.MoveNext() {
 		s = append(s, it.Current())
 	}
 	return s
@@ -77,5 +85,5 @@ func zero[T any]() T {
 }
 
 func empty[T any]() Iterable[T] {
-	return FromSliceImmutable([]T{})
+	return FromSlice[T](nil)
 }
