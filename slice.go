@@ -18,8 +18,8 @@ type sliceIterator[T any] struct {
 // By change elements in base slice afrer this called, change is affected to Iterator.
 // If you want no affects by change, you can use FromSliceImmutable.
 func FromSlice[T any](s []T) Iterable[T] {
-	if s == nil {
-		s = []T{}
+	if len(s) == 0 {
+		return empty[T]()
 	}
 	return &sliceIterable[T]{s}
 }
@@ -31,6 +31,9 @@ func FromSlice[T any](s []T) Iterable[T] {
 //
 // Input slice is duplicated to make immutable, so have some performance bottleneck.
 func FromSliceImmutable[T any](s []T) Iterable[T] {
+	if len(s) == 0 {
+		return empty[T]()
+	}
 	ss := make([]T, 0, len(s))
 	return &sliceIterable[T]{append(ss, s...)}
 }
@@ -63,10 +66,14 @@ func (it *sliceIterator[T]) Current() T {
 //   itb := gcf.FromSlice([]int{1, 2, 3})
 //   s := gcf.ToSlice(itb)
 func ToSlice[T any](itb Iterable[T]) []T {
+	// shortcut for emptyIterable
+	if _, ok := itb.(emptyIterable[T]); ok {
+		return make([]T, 0)
+	}
 	// shortcut for sliceIterable
-	if sitb, ok := itb.(*sliceIterable[T]); ok {
-		ss := make([]T, 0, len(sitb.slice))
-		return append(ss, sitb.slice...)
+	if itbs, ok := itb.(*sliceIterable[T]); ok {
+		ss := make([]T, 0, len(itbs.slice))
+		return append(ss, itbs.slice...)
 	}
 	return iteratorToSlice(itb.Iterator())
 }
@@ -82,8 +89,4 @@ func iteratorToSlice[T any](it Iterator[T]) []T {
 func zero[T any]() T {
 	var v T
 	return v
-}
-
-func empty[T any]() Iterable[T] {
-	return FromSlice[T](nil)
 }
