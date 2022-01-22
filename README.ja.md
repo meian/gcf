@@ -112,21 +112,16 @@ gcfのパフォーマンスは以下の特性を持っています。
   - immutable版として、`FromSliceImmutable` も合わせて実装
 - `Filter`
 - `Map`
+- `FlatMap`
 - `Concat`
 - `Repeat`
 - `RepeatIterable`
+- `Range`
+- `Reverse`
+- `Distinct`
 
 ### 今後提供予定
 
-- `Range`
-  - from, to, step を指定して順番に値を返す
-  - 数値型のみ提供予定
-- `Reverse`
-  - コレクションを逆順に返す
-- `Distinct`
-  - コレクションの要素を一意にして返す
-- `FlatMap`
-  - 変換結果がスライスまたはイテレータの場合に一次元のイテレータにして返す
 - `Sort`
   - コレクションを並べ替える
 - `OrderBy`

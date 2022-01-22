@@ -112,21 +112,16 @@ There are some implementations for which comments have not been described, but w
   - Also implemented as an immutable version, `FromSliceImmutable`.
 - `Filter`
 - `Map`
+- `FlatMap`
 - `Concat`
 - `Repeat`
 - `RepeatIterable`
+- `Range`
+- `Reverse`
+- `Distinct`
 
 ### To Be
 
-- `Range`
-  - Specify from, to, step and return the values in order
-  - Only numeric type will be provided
-- `Reverse`
-  - Returns in reverse order
-- `Distinct`
-  - Returns unique elements
-- `FlatMap`
-  - Maps and returns flatten iterator
 - `Sort`
   - Sort collections
 - `OrderBy`
