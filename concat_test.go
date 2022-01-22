@@ -70,6 +70,10 @@ func TestConcat(t *testing.T) {
 			assert.Equal(tt.want, s)
 		})
 	}
+
+	itb := gcf.FromSlice([]int{1, 2, 3})
+	itb = gcf.Concat(itb, gcf.FromSlice([]int{4, 5, 6}))
+	testBeforeAndAfter(t, itb)
 }
 
 func ExampleConcat() {

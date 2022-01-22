@@ -59,6 +59,10 @@ func TestFilter(t *testing.T) {
 		itb := gcf.Filter(nil, func(v int) bool { return true })
 		assert.Equal(t, []int{}, gcf.ToSlice(itb))
 	})
+
+	itb := gcf.FromSlice([]int{1, 2, 3, 4})
+	itb = gcf.Filter(itb, func(v int) bool { return v%2 == 0 })
+	testBeforeAndAfter(t, itb)
 }
 
 func ExampleFilter() {

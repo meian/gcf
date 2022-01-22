@@ -52,6 +52,10 @@ func TestDistinct(t *testing.T) {
 			assert.ElementsMatch(t, tt.want, s)
 		})
 	}
+
+	itb := gcf.FromSlice([]int{1, 2, 3, 2, 4})
+	itb = gcf.Distinct(itb)
+	testBeforeAndAfter(t, itb)
 }
 
 func ExampleDistinct() {

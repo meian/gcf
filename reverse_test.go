@@ -45,6 +45,10 @@ func TestReverse(t *testing.T) {
 			assert.Equal(t, tt.want, gcf.ToSlice(itb))
 		})
 	}
+
+	itb := gcf.FromSlice([]int{1, 2, 3})
+	itb = gcf.Reverse(itb)
+	testBeforeAndAfter(t, itb)
 }
 
 func ExampleReverse() {

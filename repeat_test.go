@@ -48,6 +48,9 @@ func TestRepeat(t *testing.T) {
 			assert.Equal(tt.want, s)
 		})
 	}
+
+	itb := gcf.Repeat(1, 3)
+	testBeforeAndAfter(t, itb)
 }
 
 func ExampleRepeat() {
@@ -58,8 +61,6 @@ func ExampleRepeat() {
 }
 
 func TestRepeatIterable(t *testing.T) {
-	itb := gcf.FromSlice([]int{1, 2, 3})
-	itbe := gcf.FromSlice[int](nil)
 	tests := []struct {
 		name  string
 		itb   gcf.Iterable[int]
@@ -68,13 +69,13 @@ func TestRepeatIterable(t *testing.T) {
 	}{
 		{
 			name:  "3 times",
-			itb:   itb,
+			itb:   gcf.FromSlice([]int{1, 2, 3}),
 			count: 3,
 			want:  []int{1, 2, 3, 1, 2, 3, 1, 2, 3},
 		},
 		{
 			name:  "empty iterable",
-			itb:   itbe,
+			itb:   gcf.FromSlice[int](nil),
 			count: 3,
 			want:  []int{},
 		},
@@ -86,19 +87,19 @@ func TestRepeatIterable(t *testing.T) {
 		},
 		{
 			name:  "1 times",
-			itb:   itb,
+			itb:   gcf.FromSlice([]int{1, 2, 3}),
 			count: 1,
 			want:  []int{1, 2, 3},
 		},
 		{
 			name:  "0 times",
-			itb:   itb,
+			itb:   gcf.FromSlice([]int{1, 2, 3}),
 			count: 0,
 			want:  []int{},
 		},
 		{
 			name:  "negative times",
-			itb:   itb,
+			itb:   gcf.FromSlice([]int{1, 2, 3}),
 			count: -1,
 			want:  []int{},
 		},
@@ -112,15 +113,9 @@ func TestRepeatIterable(t *testing.T) {
 		})
 	}
 
-	// for coverage
-	t.Run("more move test", func(t *testing.T) {
-		itb := gcf.FromSlice([]int{1, 2, 3})
-		itb = gcf.RepeatIterable(itb, 2)
-		it := itb.Iterator()
-		for it.MoveNext() {
-		}
-		assert.False(t, it.MoveNext())
-	})
+	itb := gcf.FromSlice([]int{1, 2, 3})
+	itb = gcf.RepeatIterable(itb, 2)
+	testBeforeAndAfter(t, itb)
 }
 
 func ExampleRepeatIterable() {
