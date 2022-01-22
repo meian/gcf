@@ -2,6 +2,7 @@ package gcf_test
 
 import (
 	"fmt"
+	"strings"
 	"testing"
 
 	"github.com/meian/gcf"
@@ -133,6 +134,12 @@ func TestFlatMap(t *testing.T) {
 			assert.Equal(t, tt.want, s)
 		})
 	}
+
+	itb := gcf.FromSlice([]int{1, 2, 3, 4})
+	itbs := gcf.Map(itb, func(v int) string {
+		return strings.Repeat("a", v)
+	})
+	testBeforeAndAfter(t, itbs)
 }
 
 func ExampleFlatMap() {

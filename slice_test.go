@@ -37,8 +37,6 @@ func TestFromSlice_int(t *testing.T) {
 				assert.True(it.MoveNext(), "i=%d", i)
 				assert.Equal(v, it.Current(), "i=%d", i)
 			}
-			assert.False(it.MoveNext())
-			assert.Zero(it.Current())
 
 			// test for move count
 			it = itb.Iterator()
@@ -48,6 +46,9 @@ func TestFromSlice_int(t *testing.T) {
 			assert.Len(tt.slice, itCnt)
 		})
 	}
+
+	itb := gcf.FromSlice([]int{1, 2, 3})
+	testBeforeAndAfter(t, itb)
 }
 
 func TestFromSlice_pointer(t *testing.T) {
@@ -81,9 +82,6 @@ func TestFromSlice_pointer(t *testing.T) {
 				assert.True(it.MoveNext(), "i=%d", i)
 				assert.Equal(v, it.Current(), "i=%d", i)
 			}
-			assert.False(it.MoveNext())
-			assert.Zero(it.Current())
-			assert.False(it.MoveNext())
 
 			// test for move count
 			it = itb.Iterator()
@@ -93,6 +91,9 @@ func TestFromSlice_pointer(t *testing.T) {
 			assert.Len(tt.slice, itCnt)
 		})
 	}
+
+	itb := gcf.FromSlice([]*int{&i1, &i2, &i3})
+	testBeforeAndAfter(t, itb)
 }
 
 func TestFromSliceImmutable(t *testing.T) {
@@ -138,6 +139,9 @@ func TestFromSliceImmutable(t *testing.T) {
 		}
 		assert.Empty(t, actual)
 	})
+
+	itb := gcf.FromSliceImmutable([]int{1, 2, 3})
+	testBeforeAndAfter(t, itb)
 }
 
 func TestToSlice(t *testing.T) {
