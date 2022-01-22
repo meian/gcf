@@ -1,4 +1,4 @@
-package gcf_test
+package bench_test
 
 import (
 	"fmt"
