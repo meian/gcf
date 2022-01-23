@@ -18,10 +18,10 @@ type repeatIterator[T any] struct {
 //
 // If count is 0 or negative, return Iterable with no element.
 func Repeat[T any](v T, count int) Iterable[T] {
-	switch {
-	case count < 1:
+	if count < 1 {
 		return empty[T]()
-	case count == 1:
+	}
+	if count == 1 {
 		return FromSlice([]T{v})
 	}
 	return &repeatIterable[T]{v, count}
@@ -66,12 +66,13 @@ type repeatIterableIterator[T any] struct {
 //
 // If count is 0 or negative, return Iterable with no element.
 func RepeatIterable[T any](itb Iterable[T], count int) Iterable[T] {
-	switch {
-	case itb == nil:
+	if itb == nil {
 		return empty[T]()
-	case count < 1:
+	}
+	if count < 1 {
 		return empty[T]()
-	case count == 1:
+	}
+	if count == 1 {
 		return itb
 	}
 	return &repeatIterableIterable[T]{itb, count}

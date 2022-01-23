@@ -17,12 +17,13 @@ type concatIterator[T any] struct {
 //   itb2 := gcf.FromSlice([]int{4, 5, 6})
 //   itbc := gcf.Concat(itb1, itb2)
 func Concat[T any](itb1 Iterable[T], itb2 Iterable[T]) Iterable[T] {
-	switch {
-	case itb1 == nil && itb2 == nil:
+	if itb1 == nil && itb2 == nil {
 		return empty[T]()
-	case itb2 == nil:
+	}
+	if itb2 == nil {
 		return itb1
-	case itb1 == nil:
+	}
+	if itb1 == nil {
 		return itb2
 	}
 	return &concatIterable[T]{itb1, itb2}
