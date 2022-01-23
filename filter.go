@@ -1,40 +1,40 @@
 package gcf
 
 type filterIterable[T any] struct {
-	itb       Iterable[T]
-	predicate func(v T) bool
+	itb        Iterable[T]
+	filterFunc func(v T) bool
 }
 
 type filterIterator[T any] struct {
-	iterator  Iterator[T]
-	predicate func(v T) bool
-	current   T
+	iterator   Iterator[T]
+	filterFunc func(v T) bool
+	current    T
 }
 
-// Filter makes Iterable contains elements which predicate is true.
+// Filter makes Iterable with elements which filterFunc is true.
 //
 //   itb := gcf.FromSlice([]int{1, 2, 3})
 //   itb = gcf.Filter(itb, func(v int) bool { return v%2 > 0 })
 //
-// If predicate is nil, return original Iteratable.
-func Filter[T any](itb Iterable[T], predicate func(v T) bool) Iterable[T] {
+// If filterFunc is nil, returns original Iteratable.
+func Filter[T any](itb Iterable[T], filterFunc func(v T) bool) Iterable[T] {
 	if itb == nil {
 		return empty[T]()
 	}
-	if predicate == nil {
+	if filterFunc == nil {
 		return itb
 	}
-	return &filterIterable[T]{itb, predicate}
+	return &filterIterable[T]{itb, filterFunc}
 }
 
 func (itb *filterIterable[T]) Iterator() Iterator[T] {
-	return &filterIterator[T]{itb.itb.Iterator(), itb.predicate, zero[T]()}
+	return &filterIterator[T]{itb.itb.Iterator(), itb.filterFunc, zero[T]()}
 }
 
 func (it *filterIterator[T]) MoveNext() bool {
 	for it.iterator.MoveNext() {
 		c := it.iterator.Current()
-		if it.predicate(c) {
+		if it.filterFunc(c) {
 			it.current = c
 			return true
 		}
