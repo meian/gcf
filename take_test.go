@@ -95,3 +95,84 @@ func ExampleTake() {
 	// Output:
 	// [1 2 3]
 }
+
+func TestTakeWhile(t *testing.T) {
+	type args struct {
+		itb       gcf.Iterable[int]
+		whileFunc func(v int) bool
+	}
+	tests := []struct {
+		name string
+		args args
+		want []int
+	}{
+		{
+			name: "all true",
+			args: args{
+				itb:       gcf.FromSlice([]int{1, 2, 3}),
+				whileFunc: func(v int) bool { return true },
+			},
+			want: []int{1, 2, 3},
+		},
+		{
+			name: "all false",
+			args: args{
+				itb:       gcf.FromSlice([]int{1, 2, 3}),
+				whileFunc: func(v int) bool { return false },
+			},
+			want: []int{},
+		},
+		{
+			name: "partial true from ahead",
+			args: args{
+				itb:       gcf.FromSlice([]int{1, 2, 3}),
+				whileFunc: func(v int) bool { return v <= 2 },
+			},
+			want: []int{1, 2},
+		},
+		{
+			name: "partial true not from ahead",
+			args: args{
+				itb:       gcf.FromSlice([]int{1, 2, 3}),
+				whileFunc: func(v int) bool { return v >= 2 },
+			},
+			want: []int{},
+		},
+		{
+			name: "nil func",
+			args: args{
+				itb:       gcf.FromSlice([]int{1, 2, 3}),
+				whileFunc: nil,
+			},
+			want: []int{1, 2, 3},
+		},
+		{
+			name: "nil Iterable",
+			args: args{
+				itb:       nil,
+				whileFunc: func(v int) bool { return true },
+			},
+			want: []int{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			itb := gcf.TakeWhile(tt.args.itb, tt.args.whileFunc)
+			s := gcf.ToSlice(itb)
+			assert.Equal(t, tt.want, s)
+		})
+	}
+
+	itb := gcf.FromSlice([]int{1, 2, 3})
+	itb = gcf.TakeWhile(itb, func(v int) bool { return v < 2 })
+	testBeforeAndAfter(t, itb)
+}
+
+func ExampleTakeWhile() {
+	itb := gcf.FromSlice([]int{1, 3, 5, 7, 2, 4, 6, 8, 9})
+	itb = gcf.TakeWhile(itb, func(v int) bool { return v%2 > 0 })
+	s := gcf.ToSlice(itb)
+	fmt.Println(s)
+	// Output:
+	// [1 3 5 7]
+}
