@@ -10,46 +10,46 @@ import (
 
 func TestFilter(t *testing.T) {
 	tests := []struct {
-		name      string
-		slice     []int
-		predicate func(int) bool
-		want      []int
+		name       string
+		slice      []int
+		filterFunc func(int) bool
+		want       []int
 	}{
 		{
-			name:      "ture all",
-			slice:     []int{1, 2, 3, 4, 5},
-			predicate: func(v int) bool { return v < 10 },
-			want:      []int{1, 2, 3, 4, 5},
+			name:       "all true",
+			slice:      []int{1, 2, 3, 4, 5},
+			filterFunc: func(v int) bool { return v < 10 },
+			want:       []int{1, 2, 3, 4, 5},
 		},
 		{
-			name:      "false all",
-			slice:     []int{1, 2, 3, 4, 5},
-			predicate: func(v int) bool { return v > 10 },
-			want:      []int{},
+			name:       "all false",
+			slice:      []int{1, 2, 3, 4, 5},
+			filterFunc: func(v int) bool { return v > 10 },
+			want:       []int{},
 		},
 		{
-			name:      "true or false conditional",
-			slice:     []int{1, 2, 3, 4, 5},
-			predicate: func(v int) bool { return v%2 > 0 },
-			want:      []int{1, 3, 5},
+			name:       "partial true",
+			slice:      []int{1, 2, 3, 4, 5},
+			filterFunc: func(v int) bool { return v%2 > 0 },
+			want:       []int{1, 3, 5},
 		},
 		{
-			name:      "nil predicate",
-			slice:     []int{1, 2, 3, 4, 5},
-			predicate: nil,
-			want:      []int{1, 2, 3, 4, 5},
+			name:       "nil func",
+			slice:      []int{1, 2, 3, 4, 5},
+			filterFunc: nil,
+			want:       []int{1, 2, 3, 4, 5},
 		},
 		{
-			name:      "nil slice",
-			slice:     nil,
-			predicate: func(v int) bool { return v > 10 },
-			want:      []int{},
+			name:       "nil slice",
+			slice:      nil,
+			filterFunc: func(v int) bool { return v > 10 },
+			want:       []int{},
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			assert := assert.New(t)
-			itb := gcf.Filter(gcf.FromSlice(tt.slice), tt.predicate)
+			itb := gcf.Filter(gcf.FromSlice(tt.slice), tt.filterFunc)
 			s := gcf.ToSlice(itb)
 			assert.Equal(tt.want, s)
 		})
