@@ -11,7 +11,7 @@ type filterIterator[T any] struct {
 	current    T
 }
 
-// Filter makes Iterable contains elements which filterFunc is true.
+// Filter makes Iterable with elements which filterFunc is true.
 //
 //   itb := gcf.FromSlice([]int{1, 2, 3})
 //   itb = gcf.Filter(itb, func(v int) bool { return v%2 > 0 })
