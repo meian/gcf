@@ -106,10 +106,11 @@ gcfのパフォーマンスは以下の特性を持っています。
 
 以下の関数を提供しています。  
 機能詳細については関数のコメントを参照してください。  
-コメントが未記載の実装もありますが、今後追記していきます。
+コメントが未記載の実装もありますが、今後追記していきます。  
+([pkg.go.dev](https://pkg.go.dev/) の準備ができたらそちらのリンクに切り替える予定)
 
 - `FromSlice`
-  - immutable版として、`FromSliceImmutable` も合わせて実装
+- `FromSliceImmutable`
 - `Filter`
 - `Map`
 - `FlatMap`
@@ -119,19 +120,19 @@ gcfのパフォーマンスは以下の特性を持っています。
 - `Range`
 - `Reverse`
 - `Distinct`
+- `Take`
+- `TakeWhile`
+- `Skip`
+- `SkipWhile`
 
 ### 今後提供予定
 
 - `Sort`
   - コレクションを並べ替える
-- `OrderBy`
+- `SortBy`
   - コレクションを指定した条件で並べ替える
-- `Take`
-  - 先頭から指定した件数のみを返す
 - `Last`
   - 末尾から指定した件数のみを返す
-- `Skip`
-  - 先頭から指定した件数を除く
 - `SkipLast`
   - 末尾から指定した件数を除く
 - channel系の機能
