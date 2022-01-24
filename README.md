@@ -106,10 +106,12 @@ Please refer to the [Benchmark README](bench/README.md) for details.
 
 The following functions are implemented.  
 See function comments for feature details.  
-There are some implementations for which comments have not been described, but we will add them in the future.
+There are some implementations for which comments have not been described, but we will add them in the future.  
+(Once [pkg.go.dev](https://pkg.go.dev/) is prepared, this section is switched link to there.)
+
 
 - `FromSlice`
-  - Also implemented as an immutable version, `FromSliceImmutable`.
+- `FromSliceImmutable`
 - `Filter`
 - `Map`
 - `FlatMap`
@@ -119,21 +121,28 @@ There are some implementations for which comments have not been described, but w
 - `Range`
 - `Reverse`
 - `Distinct`
+- `Take`
+- `TakeWhile`
+- `Skip`
+- `SkipWhile`
 
 ### To Be
 
 - `Sort`
   - Sort collections
-- `OrderBy`
+- `SortBy`
   - Sort collections by specified criteria
-- `Take`
-  - Returns only the specified number from the beginning
 - `Last`
   - Returns only the specified number from the end
-- `Skip`
-  - Excluding the number specified from the beginning
 - `SkipLast`
   - Excluding the specified number from the end
 - channel function
   - Create Iterable from channel
   - Get the result of Iterable on channel
+
+----
+
+
+## Configure README Display Language
+
+- [日本語](README.ja.md)
