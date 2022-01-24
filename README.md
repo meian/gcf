@@ -139,3 +139,10 @@ There are some implementations for which comments have not been described, but w
 - channel function
   - Create Iterable from channel
   - Get the result of Iterable on channel
+
+----
+
+
+## Configure README Display Language
+
+- [日本語](README.ja.md)

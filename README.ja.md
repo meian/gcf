@@ -138,3 +138,9 @@ gcfのパフォーマンスは以下の特性を持っています。
 - channel系の機能
   - channelからIterableを作成
   - Iterableの結果をchannelで取得
+
+----
+
+## READMEの表示言語を構成する
+
+- [English](README.md)
