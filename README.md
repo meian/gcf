@@ -87,6 +87,15 @@ In libraries of collection operations in other languages, the processing is ofte
 This is because generics in Go cannot define type parameters at the method level, so some functions cannot be provided by methods, and if only some functions are provided by methods, the processing cannot be maintained consistency.  
 If it is implemented to define type parameters at the method level as a result of future version upgrades of Go, we will consider providing method chain functions.  
 
+### Thread Safety
+
+The exported functions that generate Iterables are thread-safe and can be accessed from multiple go routines at the same time.  
+The `Iterator()` in each Iterable is also thread-safe and can be called from multiple go routines at the same time.  
+In `MoveNext()` and `Current()` in each Iterator, thread-safe is not guaranteed , so when sharing between go routines, separate the processing with mutex etc. as needs.  
+The process of retrieving elements from Iterable, such as `ToSlice()`, is thread-safe.
+
+It is not currently implemented, but it is undecided how the thread-safe will change when functions for channel is implemented.
+
 ## Performance
 
 The performance of gcf has the following characteristics.
