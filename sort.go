@@ -32,6 +32,16 @@ func (s ascSlice[T]) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
 
 func (s ascSlice[T]) Sort() { sort.Sort(s) }
 
+type descSlice[T constraints.Ordered] []T
+
+func (s descSlice[T]) Len() int { return len(s) }
+
+func (s descSlice[T]) Less(i, j int) bool { return s[i] > s[j] }
+
+func (s descSlice[T]) Swap(i, j int) { s[i], s[j] = s[j], s[i] }
+
+func (s descSlice[T]) Sort() { sort.Sort(s) }
+
 // SortAsc makes Iterable with sorted by ascending elements.
 //
 //   itb := gcf.FromSlice([]int{1, 3, 2})
@@ -41,6 +51,18 @@ func SortAsc[T constraints.Ordered](itb Iterable[T]) Iterable[T] {
 		return empty[T]()
 	}
 	toSorter := func(s []T) sorter[T] { return ascSlice[T](s) }
+	return &sortIterable[T]{itb, toSorter}
+}
+
+// SortDesc makes Iterable with sorted by descending elements.
+//
+//   itb := gcf.FromSlice([]int{1, 3, 2})
+//   itb = gcf.SortDesc(itb)
+func SortDesc[T constraints.Ordered](itb Iterable[T]) Iterable[T] {
+	if itb == nil {
+		return empty[T]()
+	}
+	toSorter := func(s []T) sorter[T] { return descSlice[T](s) }
 	return &sortIterable[T]{itb, toSorter}
 }
 
