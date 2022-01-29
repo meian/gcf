@@ -152,7 +152,97 @@ func TestSortDesc(t *testing.T) {
 	testBeforeAndAfter(t, itb)
 }
 
+func TestSortBy(t *testing.T) {
+	type data struct{ v int }
+	type args struct {
+		itb  gcf.Iterable[data]
+		less func(x, y data) bool
+	}
+	tests := []struct {
+		name string
+		args args
+		want []data
+	}{
+		{
+			name: "sorted slice",
+			args: args{
+				itb:  gcf.FromSlice([]data{{1}, {3}, {5}, {7}, {9}}),
+				less: func(x, y data) bool { return x.v < y.v },
+			},
+			want: []data{{1}, {3}, {5}, {7}, {9}},
+		},
+		{
+			name: "sorted slice with reverse func",
+			args: args{
+				itb:  gcf.FromSlice([]data{{1}, {3}, {5}, {7}, {9}}),
+				less: func(x, y data) bool { return x.v > y.v },
+			},
+			want: []data{{9}, {7}, {5}, {3}, {1}},
+		},
+		{
+			name: "reverse slice",
+			args: args{
+				itb:  gcf.FromSlice([]data{{9}, {7}, {5}, {3}, {1}}),
+				less: func(x, y data) bool { return x.v < y.v },
+			},
+			want: []data{{1}, {3}, {5}, {7}, {9}},
+		},
+		{
+			name: "duplicated slice",
+			args: args{
+				itb:  gcf.FromSlice([]data{{2}, {4}, {3}, {5}, {2}, {4}, {7}, {6}, {8}}),
+				less: func(x, y data) bool { return x.v < y.v },
+			},
+			want: []data{{2}, {2}, {3}, {4}, {4}, {5}, {6}, {7}, {8}},
+		},
+		{
+			name: "same elements only",
+			args: args{
+				itb:  gcf.FromSlice([]data{{2}, {2}, {2}, {2}, {2}}),
+				less: func(x, y data) bool { return x.v < y.v },
+			},
+			want: []data{{2}, {2}, {2}, {2}, {2}},
+		},
+		{
+			name: "1 element",
+			args: args{
+				itb:  gcf.FromSlice([]data{{2}}),
+				less: func(x, y data) bool { return x.v < y.v },
+			},
+			want: []data{{2}},
+		},
+		{
+			name: "empty",
+			args: args{
+				itb:  gcf.FromSlice[data](nil),
+				less: func(x, y data) bool { return x.v < y.v },
+			},
+			want: []data{},
+		},
+		{
+			name: "nil",
+			args: args{
+				itb:  nil,
+				less: func(x, y data) bool { return x.v < y.v },
+			},
+			want: []data{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			itb := gcf.SortBy(tt.args.itb, tt.args.less)
+			s := gcf.ToSlice(itb)
+			assert.Equal(t, tt.want, s)
+		})
+	}
+
+	itb := gcf.FromSlice([]data{{1}, {2}, {3}})
+	itb = gcf.SortBy(itb, func(x, y data) bool { return x.v < y.v })
+	testBeforeAndAfter(t, itb)
+}
+
 func FuzzSortAsc(f *testing.F) {
+	type data struct{ v byte }
 	tests := [][]byte{
 		{1, 2, 3},
 		{3, 2, 1},
@@ -180,6 +270,13 @@ func FuzzSortAsc(f *testing.F) {
 			v0, v1 := sd[i], sd[i+1]
 			assert.GreaterOrEqualf(v0, v1, "src: %v, i: %d", s, i)
 		}
+		itbs := gcf.Map(itb, func(v byte) data { return data{v} })
+		itbs = gcf.SortBy(itbs, func(x, y data) bool { return x.v > y.v })
+		ss := gcf.ToSlice(itbs)
+		for i := range ss[:len(ss)-1] {
+			v0, v1 := ss[i], ss[i+1]
+			assert.GreaterOrEqualf(v0.v, v1.v, "src: %v, i: %d", s, i)
+		}
 	})
 }
 
@@ -197,4 +294,14 @@ func ExampleSortDesc() {
 	fmt.Println(gcf.ToSlice(itb))
 	// Output:
 	// [7 6 6 5 5 4 3 2 1]
+}
+
+func ExampleSortBy() {
+	type data struct{ v int }
+	itbi := gcf.FromSlice([]int{3, 6, 7, 1, 5, 6, 2, 4, 5})
+	itb := gcf.Map(itbi, func(v int) data { return data{v} })
+	itb = gcf.SortBy(itb, func(x, y data) bool { return x.v < y.v })
+	fmt.Println(gcf.ToSlice(itb))
+	// Output:
+	// [{1} {2} {3} {4} {5} {5} {6} {6} {7}]
 }
