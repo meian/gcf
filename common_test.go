@@ -24,3 +24,14 @@ func testBeforeAndAfter[T any](t *testing.T, itb gcf.Iterable[T]) {
 		assert.Zero(it.Current())
 	})
 }
+
+// testEmptyChain tests Iterable is emptyIterable when chained from emptyIterable.
+// On function called with emptyIterable should be emptyIterable.
+func testEmptyChain(t *testing.T, f func(itb gcf.Iterable[int]) gcf.Iterable[int]) {
+	t.Helper()
+	itbe := gcf.FromSlice([]int{})
+	t.Run("is empty Iterable", func(t *testing.T) {
+		itb := f(itbe)
+		assert.True(t, gcf.IsEmptyIterable(itb), "%v", gcf.ToSlice(itb))
+	})
+}
