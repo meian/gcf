@@ -19,8 +19,8 @@ type skipIterator[T any] struct {
 //
 // If count is 0 or negative, returns original Iterable.
 func Skip[T any](itb Iterable[T], count int) Iterable[T] {
-	if itb == nil {
-		return empty[T]()
+	if isEmpty(itb) {
+		return orEmpty(itb)
 	}
 	if count < 1 {
 		return itb
@@ -67,8 +67,8 @@ type skipWhileIterator[T any] struct {
 //
 // If whileFunc is nil, returns original Iterable.
 func SkipWhile[T any](itb Iterable[T], whileFunc func(v T) bool) Iterable[T] {
-	if itb == nil {
-		return empty[T]()
+	if isEmpty(itb) {
+		return orEmpty(itb)
 	}
 	if whileFunc == nil {
 		return itb

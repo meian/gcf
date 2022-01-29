@@ -15,8 +15,8 @@ type reverseIterator[T any] struct {
 //   itb := gcf.FromSlice([]int{1, 2, 3})
 //   itb = gcf.Reverse(itb)
 func Reverse[T any](itb Iterable[T]) Iterable[T] {
-	if itb == nil {
-		return empty[T]()
+	if isEmpty(itb) {
+		return orEmpty(itb)
 	}
 	// reverse in reverse is original Iterable.
 	if itbr, ok := itb.(*reverseIterable[T]); ok {

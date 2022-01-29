@@ -42,6 +42,12 @@ func Range[T constraints.Integer](start, end, step T) (Iterable[T], error) {
 	if start == end {
 		return FromSlice([]T{start}), nil
 	}
+	if step > 0 && start > end {
+		return empty[T](), nil
+	}
+	if step < 0 && start < end {
+		return empty[T](), nil
+	}
 	return &rangeIterable[T]{start, end, step}, nil
 }
 

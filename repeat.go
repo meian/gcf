@@ -66,8 +66,8 @@ type repeatIterableIterator[T any] struct {
 //
 // If count is 0 or negative, return Iterable with no element.
 func RepeatIterable[T any](itb Iterable[T], count int) Iterable[T] {
-	if itb == nil {
-		return empty[T]()
+	if isEmpty(itb) {
+		return orEmpty(itb)
 	}
 	if count < 1 {
 		return empty[T]()

@@ -18,7 +18,7 @@ type mapIterator[T any, R any] struct {
 //
 // If mapFunc is nil, return Iterable in zero value elements.
 func Map[T any, R any](itb Iterable[T], mapFunc func(v T) R) Iterable[R] {
-	if itb == nil {
+	if isEmpty(itb) {
 		return empty[R]()
 	}
 	if mapFunc == nil {
@@ -69,7 +69,7 @@ type flatMapIterator[T any, R any] struct {
 //
 // If mapFunc is nil, return empty Iterable.
 func FlatMap[T any, R any](itb Iterable[T], mapFunc func(v T) []R) Iterable[R] {
-	if itb == nil {
+	if isEmpty(itb) {
 		return empty[R]()
 	}
 	if mapFunc == nil {
