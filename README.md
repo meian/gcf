@@ -118,29 +118,27 @@ See function comments for feature details.
 There are some implementations for which comments have not been described, but we will add them in the future.  
 (Once [pkg.go.dev](https://pkg.go.dev/) is prepared, this section is switched link to there.)
 
-
+- `Concat`
+- `Distinct`
+- `Filter`
+- `FlatMap`
 - `FromSlice`
 - `FromSliceImmutable`
-- `Filter`
 - `Map`
-- `FlatMap`
-- `Concat`
+- `Range`
 - `Repeat`
 - `RepeatIterable`
-- `Range`
 - `Reverse`
-- `Distinct`
-- `Take`
-- `TakeWhile`
 - `Skip`
 - `SkipWhile`
+- `SortAsc`
+- `SortBy`
+- `SortDesc`
+- `Take`
+- `TakeWhile`
 
 ### To Be
 
-- `Sort`
-  - Sort collections
-- `SortBy`
-  - Sort collections by specified criteria
 - `Last`
   - Returns only the specified number from the end
 - `SkipLast`

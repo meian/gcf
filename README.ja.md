@@ -118,28 +118,27 @@ gcfのパフォーマンスは以下の特性を持っています。
 コメントが未記載の実装もありますが、今後追記していきます。  
 ([pkg.go.dev](https://pkg.go.dev/) の準備ができたらそちらのリンクに切り替える予定)
 
+- `Concat`
+- `Distinct`
+- `Filter`
+- `FlatMap`
 - `FromSlice`
 - `FromSliceImmutable`
-- `Filter`
 - `Map`
-- `FlatMap`
-- `Concat`
+- `Range`
 - `Repeat`
 - `RepeatIterable`
-- `Range`
 - `Reverse`
-- `Distinct`
-- `Take`
-- `TakeWhile`
 - `Skip`
 - `SkipWhile`
+- `SortAsc`
+- `SortBy`
+- `SortDesc`
+- `Take`
+- `TakeWhile`
 
 ### 今後提供予定
 
-- `Sort`
-  - コレクションを並べ替える
-- `SortBy`
-  - コレクションを指定した条件で並べ替える
 - `Last`
   - 末尾から指定した件数のみを返す
 - `SkipLast`
