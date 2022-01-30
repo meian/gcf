@@ -92,13 +92,13 @@ func (it *takeWhileIterator[T]) MoveNext() bool {
 	if it.done {
 		return false
 	}
-	if it.it.MoveNext() && it.whileFunc(it.it.Current()) {
-		it.current = it.it.Current()
-		return true
+	if !it.it.MoveNext() || !it.whileFunc(it.it.Current()) {
+		it.done = true
+		it.current = zero[T]()
+		return false
 	}
-	it.done = true
-	it.current = zero[T]()
-	return false
+	it.current = it.it.Current()
+	return true
 }
 
 func (it *takeWhileIterator[T]) Current() T {

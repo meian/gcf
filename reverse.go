@@ -33,12 +33,12 @@ func (it *reverseIterator[T]) MoveNext() bool {
 	if !it.built {
 		it.buildReverse()
 	}
-	for it.it.MoveNext() {
-		it.current = it.it.Current()
-		return true
+	if !it.it.MoveNext() {
+		it.current = zero[T]()
+		return false
 	}
-	it.current = zero[T]()
-	return false
+	it.current = it.it.Current()
+	return true
 }
 
 func (it *reverseIterator[T]) Current() T {
