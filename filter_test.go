@@ -63,6 +63,10 @@ func TestFilter(t *testing.T) {
 	itb := gcf.FromSlice([]int{1, 2, 3, 4})
 	itb = gcf.Filter(itb, func(v int) bool { return v%2 == 0 })
 	testBeforeAndAfter(t, itb)
+
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		return gcf.Filter(itb, func(v int) bool { return true })
+	})
 }
 
 func ExampleFilter() {

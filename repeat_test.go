@@ -51,6 +51,13 @@ func TestRepeat(t *testing.T) {
 
 	itb := gcf.Repeat(1, 3)
 	testBeforeAndAfter(t, itb)
+
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		return gcf.Repeat(1, 0)
+	})
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		return gcf.Repeat(1, -1)
+	})
 }
 
 func ExampleRepeat() {
@@ -116,6 +123,13 @@ func TestRepeatIterable(t *testing.T) {
 	itb := gcf.FromSlice([]int{1, 2, 3})
 	itb = gcf.RepeatIterable(itb, 2)
 	testBeforeAndAfter(t, itb)
+
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		return gcf.RepeatIterable(itb, 0)
+	})
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		return gcf.RepeatIterable(itb, -1)
+	})
 }
 
 func ExampleRepeatIterable() {

@@ -78,6 +78,10 @@ func TestSortAsc(t *testing.T) {
 	itb := gcf.FromSlice([]int{1, 2, 3})
 	itb = gcf.SortAsc(itb)
 	testBeforeAndAfter(t, itb)
+
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		return gcf.SortAsc(itb)
+	})
 }
 
 func TestSortDesc(t *testing.T) {
@@ -150,6 +154,10 @@ func TestSortDesc(t *testing.T) {
 	itb := gcf.FromSlice([]int{1, 2, 3})
 	itb = gcf.SortDesc(itb)
 	testBeforeAndAfter(t, itb)
+
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		return gcf.SortDesc(itb)
+	})
 }
 
 func TestSortBy(t *testing.T) {
@@ -239,6 +247,10 @@ func TestSortBy(t *testing.T) {
 	itb := gcf.FromSlice([]data{{1}, {2}, {3}})
 	itb = gcf.SortBy(itb, func(x, y data) bool { return x.v < y.v })
 	testBeforeAndAfter(t, itb)
+
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		return gcf.SortBy(itb, func(x, y int) bool { return true })
+	})
 }
 
 func FuzzSortAsc(f *testing.F) {

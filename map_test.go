@@ -52,6 +52,10 @@ func TestMap(t *testing.T) {
 			assert.Equal(tt.want, s)
 		})
 	}
+
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		return gcf.Map(itb, func(v int) int { return v })
+	})
 }
 
 func ExampleMap() {
@@ -140,6 +144,10 @@ func TestFlatMap(t *testing.T) {
 		return strings.Repeat("a", v)
 	})
 	testBeforeAndAfter(t, itbs)
+
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		return gcf.FlatMap(itb, func(v int) []int { return []int{v, v, v} })
+	})
 }
 
 func ExampleFlatMap() {

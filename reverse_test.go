@@ -49,6 +49,10 @@ func TestReverse(t *testing.T) {
 	itb := gcf.FromSlice([]int{1, 2, 3})
 	itb = gcf.Reverse(itb)
 	testBeforeAndAfter(t, itb)
+
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		return gcf.Reverse(itb)
+	})
 }
 
 func ExampleReverse() {

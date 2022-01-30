@@ -139,6 +139,15 @@ func TestRange(t *testing.T) {
 	testBeforeAndAfter(t, itb)
 	itb, _ = gcf.Range(3, 1, -1)
 	testBeforeAndAfter(t, itb)
+
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		itb, _ = gcf.Range(1, 0, 1)
+		return itb
+	})
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		itb, _ = gcf.Range(1, 2, -1)
+		return itb
+	})
 }
 
 func ExampleRange() {
