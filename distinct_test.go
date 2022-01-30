@@ -56,6 +56,10 @@ func TestDistinct(t *testing.T) {
 	itb := gcf.FromSlice([]int{1, 2, 3, 2, 4})
 	itb = gcf.Distinct(itb)
 	testBeforeAndAfter(t, itb)
+
+	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		return gcf.Distinct(itb)
+	})
 }
 
 func ExampleDistinct() {

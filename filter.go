@@ -18,8 +18,8 @@ type filterIterator[T any] struct {
 //
 // If filterFunc is nil, returns original Iteratable.
 func Filter[T any](itb Iterable[T], filterFunc func(v T) bool) Iterable[T] {
-	if itb == nil {
-		return empty[T]()
+	if isEmpty(itb) {
+		return orEmpty(itb)
 	}
 	if filterFunc == nil {
 		return itb

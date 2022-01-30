@@ -20,8 +20,8 @@ type takeIterator[T any] struct {
 //
 // If count is 0 or negative, returns empty Iterable.
 func Take[T any](itb Iterable[T], count int) Iterable[T] {
-	if itb == nil {
-		return empty[T]()
+	if isEmpty(itb) {
+		return orEmpty(itb)
 	}
 	if count < 1 {
 		return empty[T]()
@@ -75,8 +75,8 @@ type takeWhileIterator[T any] struct {
 //
 // If whileFunc is nil, returns original Iterable.
 func TakeWhile[T any](itb Iterable[T], whileFunc func(v T) bool) Iterable[T] {
-	if itb == nil {
-		return empty[T]()
+	if isEmpty(itb) {
+		return orEmpty(itb)
 	}
 	if whileFunc == nil {
 		return itb

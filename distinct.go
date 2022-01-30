@@ -18,8 +18,8 @@ type distinctIterator[T comparable] struct {
 //
 // Currently, result order is determined, but on spec, is undefined.
 func Distinct[T comparable](itb Iterable[T]) Iterable[T] {
-	if itb == nil {
-		return empty[T]()
+	if isEmpty(itb) {
+		return orEmpty(itb)
 	}
 	// Because no change has with Distinct combined Distinct, original Iterable is returned
 	if itbd, ok := itb.(*distinctIterable[T]); ok {

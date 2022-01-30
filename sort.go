@@ -60,8 +60,8 @@ func (s funcSorter[T]) Sort() { sort.Sort(s) }
 //   itb := gcf.FromSlice([]int{1, 3, 2})
 //   itb = gcf.SortAsc(itb)
 func SortAsc[T constraints.Ordered](itb Iterable[T]) Iterable[T] {
-	if itb == nil {
-		return empty[T]()
+	if isEmpty(itb) {
+		return orEmpty(itb)
 	}
 	toSorter := func(s []T) sorter[T] { return ascSlice[T](s) }
 	return &sortIterable[T]{itb, toSorter}
@@ -72,8 +72,8 @@ func SortAsc[T constraints.Ordered](itb Iterable[T]) Iterable[T] {
 //   itb := gcf.FromSlice([]int{1, 3, 2})
 //   itb = gcf.SortDesc(itb)
 func SortDesc[T constraints.Ordered](itb Iterable[T]) Iterable[T] {
-	if itb == nil {
-		return empty[T]()
+	if isEmpty(itb) {
+		return orEmpty(itb)
 	}
 	toSorter := func(s []T) sorter[T] { return descSlice[T](s) }
 	return &sortIterable[T]{itb, toSorter}
@@ -87,8 +87,8 @@ func SortDesc[T constraints.Ordered](itb Iterable[T]) Iterable[T] {
 //
 // The less function takes x element and y element, and returns true if x is less than y.
 func SortBy[T any](itb Iterable[T], less func(x, y T) bool) Iterable[T] {
-	if itb == nil {
-		return empty[T]()
+	if isEmpty(itb) {
+		return orEmpty(itb)
 	}
 	toSorter := func(s []T) sorter[T] { return funcSorter[T]{s, less} }
 	return &sortIterable[T]{itb, toSorter}
