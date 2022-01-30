@@ -148,7 +148,7 @@ func TestTakeWhile(t *testing.T) {
 				itb:       gcf.FromSlice([]int{1, 2, 3}),
 				whileFunc: nil,
 			},
-			want: []int{1, 2, 3},
+			want: []int{},
 		},
 		{
 			name: "nil Iterable",

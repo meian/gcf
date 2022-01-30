@@ -73,13 +73,13 @@ type takeWhileIterator[T any] struct {
 //   itb := gcf.FromSlice([]{1, 2, 3})
 //   itb = gcf.TakeWhile(itb, func(v int) bool { return v <= 2 })
 //
-// If whileFunc is nil, returns original Iterable.
+// If whileFunc is nil, returns empty Iterable.
 func TakeWhile[T any](itb Iterable[T], whileFunc func(v T) bool) Iterable[T] {
 	if isEmpty(itb) {
 		return orEmpty(itb)
 	}
 	if whileFunc == nil {
-		return itb
+		return empty[T]()
 	}
 	return &takeWhileIterable[T]{itb, whileFunc}
 }
