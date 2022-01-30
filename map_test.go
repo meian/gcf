@@ -140,8 +140,8 @@ func TestFlatMap(t *testing.T) {
 	}
 
 	itb := gcf.FromSlice([]int{1, 2, 3, 4})
-	itbs := gcf.Map(itb, func(v int) string {
-		return strings.Repeat("a", v)
+	itbs := gcf.FlatMap(itb, func(v int) []string {
+		return []string{strings.Repeat("a", v)}
 	})
 	testBeforeAndAfter(t, itbs)
 
