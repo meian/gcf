@@ -84,6 +84,14 @@ func TestSortAsc(t *testing.T) {
 	})
 }
 
+func ExampleSortAsc() {
+	itb := gcf.FromSlice([]int{3, 6, 7, 1, 5, 6, 2, 4, 5})
+	itb = gcf.SortAsc(itb)
+	fmt.Println(gcf.ToSlice(itb))
+	// Output:
+	// [1 2 3 4 5 5 6 6 7]
+}
+
 func TestSortDesc(t *testing.T) {
 	type args struct {
 		itb gcf.Iterable[int]
@@ -158,6 +166,14 @@ func TestSortDesc(t *testing.T) {
 	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.SortDesc(itb)
 	})
+}
+
+func ExampleSortDesc() {
+	itb := gcf.FromSlice([]int{3, 6, 7, 1, 5, 6, 2, 4, 5})
+	itb = gcf.SortDesc(itb)
+	fmt.Println(gcf.ToSlice(itb))
+	// Output:
+	// [7 6 6 5 5 4 3 2 1]
 }
 
 func TestSortBy(t *testing.T) {
@@ -253,7 +269,17 @@ func TestSortBy(t *testing.T) {
 	})
 }
 
-func FuzzSortAsc(f *testing.F) {
+func ExampleSortBy() {
+	type data struct{ v int }
+	itbi := gcf.FromSlice([]int{3, 6, 7, 1, 5, 6, 2, 4, 5})
+	itb := gcf.Map(itbi, func(v int) data { return data{v} })
+	itb = gcf.SortBy(itb, func(x, y data) bool { return x.v < y.v })
+	fmt.Println(gcf.ToSlice(itb))
+	// Output:
+	// [{1} {2} {3} {4} {5} {5} {6} {6} {7}]
+}
+
+func FuzzSort(f *testing.F) {
 	type data struct{ v byte }
 	tests := [][]byte{
 		{1, 2, 3},
@@ -290,30 +316,4 @@ func FuzzSortAsc(f *testing.F) {
 			assert.GreaterOrEqualf(v0.v, v1.v, "src: %v, i: %d", s, i)
 		}
 	})
-}
-
-func ExampleSortAsc() {
-	itb := gcf.FromSlice([]int{3, 6, 7, 1, 5, 6, 2, 4, 5})
-	itb = gcf.SortAsc(itb)
-	fmt.Println(gcf.ToSlice(itb))
-	// Output:
-	// [1 2 3 4 5 5 6 6 7]
-}
-
-func ExampleSortDesc() {
-	itb := gcf.FromSlice([]int{3, 6, 7, 1, 5, 6, 2, 4, 5})
-	itb = gcf.SortDesc(itb)
-	fmt.Println(gcf.ToSlice(itb))
-	// Output:
-	// [7 6 6 5 5 4 3 2 1]
-}
-
-func ExampleSortBy() {
-	type data struct{ v int }
-	itbi := gcf.FromSlice([]int{3, 6, 7, 1, 5, 6, 2, 4, 5})
-	itb := gcf.Map(itbi, func(v int) data { return data{v} })
-	itb = gcf.SortBy(itb, func(x, y data) bool { return x.v < y.v })
-	fmt.Println(gcf.ToSlice(itb))
-	// Output:
-	// [{1} {2} {3} {4} {5} {5} {6} {6} {7}]
 }
