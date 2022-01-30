@@ -91,12 +91,12 @@ func (it *skipWhileIterator[T]) MoveNext() bool {
 			return true
 		}
 	}
-	if it.it.MoveNext() {
-		it.current = it.it.Current()
-		return true
+	if !it.it.MoveNext() {
+		it.current = zero[T]()
+		return false
 	}
-	it.current = zero[T]()
-	return false
+	it.current = it.it.Current()
+	return true
 }
 
 func (it *skipWhileIterator[T]) Current() T {
