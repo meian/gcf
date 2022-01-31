@@ -2,7 +2,7 @@
 name: Proposal improvement
 about: Proposal for improve implements or this project except feature requests.
 title: "[Proposal]"
-labels: enhancement
+labels: improvement
 assignees: ''
 
 ---
