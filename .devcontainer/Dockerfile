@@ -1,4 +1,4 @@
-FROM golang:1.18-rc-buster
+FROM golang:1.18beta2-bullseye
 
 ENV USER vscode
 
