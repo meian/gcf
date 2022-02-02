@@ -1,3 +1,5 @@
+Closes #[issue no]
+
 ### What changed
 
 Describe a clear and concise what you changed in pull request.
