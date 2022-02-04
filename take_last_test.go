@@ -99,3 +99,104 @@ func ExampleTakeLast() {
 	// Output:
 	// [3 4 5]
 }
+
+func TestTakeLastWhile(t *testing.T) {
+	type args struct {
+		itb       gcf.Iterable[int]
+		whileFunc func(v int) bool
+	}
+	tests := []struct {
+		name string
+		args args
+		want []int
+	}{
+		{
+			name: "all true",
+			args: args{
+				itb:       gcf.FromSlice([]int{1, 2, 3}),
+				whileFunc: func(v int) bool { return true },
+			},
+			want: []int{1, 2, 3},
+		},
+		{
+			name: "all false",
+			args: args{
+				itb:       gcf.FromSlice([]int{1, 2, 3}),
+				whileFunc: func(v int) bool { return false },
+			},
+			want: []int{},
+		},
+		{
+			name: "partial true from end",
+			args: args{
+				itb:       gcf.FromSlice([]int{1, 2, 3}),
+				whileFunc: func(v int) bool { return v >= 2 },
+			},
+			want: []int{2, 3},
+		},
+		{
+			name: "partial true not from end",
+			args: args{
+				itb:       gcf.FromSlice([]int{1, 2, 3}),
+				whileFunc: func(v int) bool { return v <= 2 },
+			},
+			want: []int{},
+		},
+		{
+			name: "1 element with filter true",
+			args: args{
+				itb:       gcf.FromSlice([]int{1}),
+				whileFunc: func(v int) bool { return true },
+			},
+			want: []int{1},
+		},
+		{
+			name: "1 element with filter false",
+			args: args{
+				itb:       gcf.FromSlice([]int{1}),
+				whileFunc: func(v int) bool { return false },
+			},
+			want: []int{},
+		},
+		{
+			name: "nil func",
+			args: args{
+				itb:       gcf.FromSlice([]int{1, 2, 3}),
+				whileFunc: nil,
+			},
+			want: []int{},
+		},
+		{
+			name: "nil Iterable",
+			args: args{
+				itb:       nil,
+				whileFunc: func(v int) bool { return true },
+			},
+			want: []int{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			itb := gcf.TakeLastWhile(tt.args.itb, tt.args.whileFunc)
+			s := gcf.ToSlice(itb)
+			assert.Equal(t, tt.want, s)
+		})
+	}
+
+	itb := gcf.FromSlice([]int{1, 2, 3})
+	itb = gcf.TakeLastWhile(itb, func(v int) bool { return v > 2 })
+	testBeforeAndAfter(t, itb)
+
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+		return gcf.TakeLastWhile(itb, func(v int) bool { return true })
+	})
+}
+
+func ExampleTakeLastWhile() {
+	itb := gcf.FromSlice([]int{1, 3, 5, 7, 2, 4, 6, 8, 9})
+	itb = gcf.TakeLastWhile(itb, func(v int) bool { return v > 3 })
+	s := gcf.ToSlice(itb)
+	fmt.Println(s)
+	// Output:
+	// [4 6 8 9]
+}
