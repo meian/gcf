@@ -143,6 +143,22 @@ func TestTakeWhile(t *testing.T) {
 			want: []int{},
 		},
 		{
+			name: "1 element with filter true",
+			args: args{
+				itb:       gcf.FromSlice([]int{1}),
+				whileFunc: func(v int) bool { return true },
+			},
+			want: []int{1},
+		},
+		{
+			name: "1 element with filter false",
+			args: args{
+				itb:       gcf.FromSlice([]int{1}),
+				whileFunc: func(v int) bool { return false },
+			},
+			want: []int{},
+		},
+		{
 			name: "nil func",
 			args: args{
 				itb:       gcf.FromSlice([]int{1, 2, 3}),
