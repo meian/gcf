@@ -1,11 +1,11 @@
 package gcf
 
-type lastIterable[T any] struct {
+type takeLastIterable[T any] struct {
 	itb   Iterable[T]
 	count int
 }
 
-type lastIterator[T any] struct {
+type takeLastIterator[T any] struct {
 	it      Iterator[T]
 	count   int
 	i       int
@@ -13,27 +13,27 @@ type lastIterator[T any] struct {
 	current T
 }
 
-// Last makes Iterable with count elements from end.
+// TakeLast makes Iterable with count elements from end.
 //
 //   itb := gcf.FromSlice([]{1, 2, 3})
-//   itb = gcf.Last(itb, 2)
+//   itb = gcf.TakeLast(itb, 2)
 //
 // If count is 0 or negative, returns empty Iterable.
-func Last[T any](itb Iterable[T], count int) Iterable[T] {
+func TakeLast[T any](itb Iterable[T], count int) Iterable[T] {
 	if isEmpty(itb) {
 		return orEmpty(itb)
 	}
 	if count < 1 {
 		return empty[T]()
 	}
-	return &lastIterable[T]{itb, count}
+	return &takeLastIterable[T]{itb, count}
 }
 
-func (itb *lastIterable[T]) Iterator() Iterator[T] {
-	return &lastIterator[T]{itb.itb.Iterator(), itb.count, 0, false, zero[T]()}
+func (itb *takeLastIterable[T]) Iterator() Iterator[T] {
+	return &takeLastIterator[T]{itb.itb.Iterator(), itb.count, 0, false, zero[T]()}
 }
 
-func (it *lastIterator[T]) MoveNext() bool {
+func (it *takeLastIterator[T]) MoveNext() bool {
 	if !it.built {
 		it.build()
 	}
@@ -45,11 +45,11 @@ func (it *lastIterator[T]) MoveNext() bool {
 	return true
 }
 
-func (it *lastIterator[T]) Current() T {
+func (it *takeLastIterator[T]) Current() T {
 	return it.current
 }
 
-func (it *lastIterator[T]) build() {
+func (it *takeLastIterator[T]) build() {
 	s := iteratorToSlice(it.it)
 	if len(s) <= it.count {
 		it.it = makeSliceIterator(s)
