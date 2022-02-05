@@ -58,3 +58,73 @@ func (it *takeLastIterator[T]) build() {
 	}
 	it.built = true
 }
+
+type takeLastWhileIterable[T any] struct {
+	itb       Iterable[T]
+	whileFunc func(v T) bool
+}
+
+type takeLastWhileIterator[T any] struct {
+	it        Iterator[T]
+	whileFunc func(v T) bool
+	built     bool
+	current   T
+}
+
+// TakeLastWhile makes Iterable with elements in which whileFunc is true from end.
+//
+//   itb := gcf.FromSlice([]{1, 2, 3})
+//   itb = gcf.TakeLastWhile(itb, func(v int) bool { return v >= 2 })
+//
+// If whileFunc is nil, returns empty Iterable.
+func TakeLastWhile[T any](itb Iterable[T], whileFunc func(v T) bool) Iterable[T] {
+	if isEmpty(itb) {
+		return orEmpty(itb)
+	}
+	if whileFunc == nil {
+		return empty[T]()
+	}
+	return &takeLastWhileIterable[T]{itb, whileFunc}
+}
+
+func (itb *takeLastWhileIterable[T]) Iterator() Iterator[T] {
+	return &takeLastWhileIterator[T]{itb.itb.Iterator(), itb.whileFunc, false, zero[T]()}
+}
+
+func (it *takeLastWhileIterator[T]) MoveNext() bool {
+	if !it.built {
+		it.build()
+	}
+	if !it.it.MoveNext() {
+		it.current = zero[T]()
+		return false
+	}
+	it.current = it.it.Current()
+	return true
+}
+
+func (it *takeLastWhileIterator[T]) Current() T {
+	return it.current
+}
+
+func (it *takeLastWhileIterator[T]) build() {
+	s := iteratorToSlice(it.it)
+	if len(s) == 0 {
+		it.it = emptyIter[T]()
+		it.built = true
+		return
+	}
+	if !it.whileFunc(s[len(s)-1]) {
+		it.it = emptyIter[T]()
+		it.built = true
+		return
+	}
+	for i := len(s) - 2; i >= 0; i-- {
+		if !it.whileFunc(s[i]) {
+			s = s[i+1:]
+			break
+		}
+	}
+	it.it = makeSliceIterator(s)
+	it.built = true
+}
