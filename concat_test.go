@@ -75,10 +75,10 @@ func TestConcat(t *testing.T) {
 	itb = gcf.Concat(itb, gcf.FromSlice([]int{4, 5, 6}))
 	testBeforeAndAfter(t, itb)
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.Concat(itb, gcf.FromSlice([]int{}))
 	})
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.Concat(itb, nil)
 	})
 }

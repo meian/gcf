@@ -64,7 +64,7 @@ func TestFilter(t *testing.T) {
 	itb = gcf.Filter(itb, func(v int) bool { return v%2 == 0 })
 	testBeforeAndAfter(t, itb)
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.Filter(itb, func(v int) bool { return true })
 	})
 }

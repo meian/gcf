@@ -87,7 +87,7 @@ func TestTake(t *testing.T) {
 	itb = gcf.Take(itb, 2)
 	testBeforeAndAfter(t, itb)
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.Take(itb, 1)
 	})
 }
@@ -171,7 +171,7 @@ func TestTakeWhile(t *testing.T) {
 	itb = gcf.TakeWhile(itb, func(v int) bool { return v < 2 })
 	testBeforeAndAfter(t, itb)
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.TakeWhile(itb, func(v int) bool { return true })
 	})
 }

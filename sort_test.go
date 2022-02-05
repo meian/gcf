@@ -79,7 +79,7 @@ func TestSortAsc(t *testing.T) {
 	itb = gcf.SortAsc(itb)
 	testBeforeAndAfter(t, itb)
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.SortAsc(itb)
 	})
 }
@@ -163,7 +163,7 @@ func TestSortDesc(t *testing.T) {
 	itb = gcf.SortDesc(itb)
 	testBeforeAndAfter(t, itb)
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.SortDesc(itb)
 	})
 }
@@ -264,7 +264,7 @@ func TestSortBy(t *testing.T) {
 	itb = gcf.SortBy(itb, func(x, y data) bool { return x.v < y.v })
 	testBeforeAndAfter(t, itb)
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.SortBy(itb, func(x, y int) bool { return true })
 	})
 }

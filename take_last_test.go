@@ -87,7 +87,7 @@ func TestTakeLast(t *testing.T) {
 	itb = gcf.TakeLast(itb, 2)
 	testBeforeAndAfter(t, itb)
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.TakeLast(itb, 2)
 	})
 }

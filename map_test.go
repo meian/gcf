@@ -53,7 +53,7 @@ func TestMap(t *testing.T) {
 		})
 	}
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.Map(itb, func(v int) int { return v })
 	})
 }
@@ -145,7 +145,7 @@ func TestFlatMap(t *testing.T) {
 	})
 	testBeforeAndAfter(t, itbs)
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.FlatMap(itb, func(v int) []int { return []int{v, v, v} })
 	})
 }
