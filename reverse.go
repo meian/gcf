@@ -5,9 +5,9 @@ type reverseIterable[T any] struct {
 }
 
 type reverseIterator[T any] struct {
-	it      Iterator[T]
-	built   bool
-	current T
+	it    Iterator[T]
+	built bool
+	iteratorItem[T]
 }
 
 // Reverse makes Iterable with reverse order elements.
@@ -26,15 +26,20 @@ func Reverse[T any](itb Iterable[T]) Iterable[T] {
 }
 
 func (itb *reverseIterable[T]) Iterator() Iterator[T] {
-	return &reverseIterator[T]{itb.itb.Iterator(), false, zero[T]()}
+	return &reverseIterator[T]{
+		it: itb.itb.Iterator(),
+	}
 }
 
 func (it *reverseIterator[T]) MoveNext() bool {
+	if it.done {
+		return false
+	}
 	if !it.built {
-		it.buildReverse()
+		it.build()
 	}
 	if !it.it.MoveNext() {
-		it.current = zero[T]()
+		it.MarkDone()
 		return false
 	}
 	it.current = it.it.Current()
@@ -45,7 +50,7 @@ func (it *reverseIterator[T]) Current() T {
 	return it.current
 }
 
-func (it *reverseIterator[T]) buildReverse() {
+func (it *reverseIterator[T]) build() {
 	s := iteratorToSlice(it.it)
 	len := len(s)
 	for i := 0; i < len/2; i++ {

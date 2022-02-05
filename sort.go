@@ -14,7 +14,7 @@ type sortIterator[T any] struct {
 	it       Iterator[T]
 	toSorter func([]T) sorter[T]
 	built    bool
-	current  T
+	iteratorItem[T]
 }
 
 type sorter[T any] interface {
@@ -95,15 +95,21 @@ func SortBy[T any](itb Iterable[T], less func(x, y T) bool) Iterable[T] {
 }
 
 func (itb *sortIterable[T]) Iterator() Iterator[T] {
-	return &sortIterator[T]{itb.itb.Iterator(), itb.toSorter, false, zero[T]()}
+	return &sortIterator[T]{
+		it:       itb.itb.Iterator(),
+		toSorter: itb.toSorter,
+	}
 }
 
 func (it *sortIterator[T]) MoveNext() bool {
+	if it.done {
+		return false
+	}
 	if !it.built {
 		it.buildSort()
 	}
 	if !it.it.MoveNext() {
-		it.current = zero[T]()
+		it.MarkDone()
 		return false
 	}
 	it.current = it.it.Current()

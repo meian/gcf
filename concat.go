@@ -6,9 +6,9 @@ type concatIterable[T any] struct {
 }
 
 type concatIterator[T any] struct {
-	it1     Iterator[T]
-	it2     Iterator[T]
-	current T
+	it1 Iterator[T]
+	it2 Iterator[T]
+	iteratorItem[T]
 }
 
 // Concat makes Iterable elements concatenated of itb1 and itb2.
@@ -18,7 +18,7 @@ type concatIterator[T any] struct {
 //   itbc := gcf.Concat(itb1, itb2)
 func Concat[T any](itb1 Iterable[T], itb2 Iterable[T]) Iterable[T] {
 	if isEmpty(itb1) && isEmpty(itb2) {
-		return empty[T]()
+		return orEmpty(itb1)
 	}
 	if isEmpty(itb2) {
 		return itb1
@@ -30,10 +30,16 @@ func Concat[T any](itb1 Iterable[T], itb2 Iterable[T]) Iterable[T] {
 }
 
 func (itb *concatIterable[T]) Iterator() Iterator[T] {
-	return &concatIterator[T]{itb.itb1.Iterator(), itb.itb2.Iterator(), zero[T]()}
+	return &concatIterator[T]{
+		it1: itb.itb1.Iterator(),
+		it2: itb.itb2.Iterator(),
+	}
 }
 
 func (it *concatIterator[T]) MoveNext() bool {
+	if it.done {
+		return false
+	}
 	if it.it1.MoveNext() {
 		it.current = it.it1.Current()
 		return true
@@ -42,7 +48,7 @@ func (it *concatIterator[T]) MoveNext() bool {
 		it.current = it.it2.Current()
 		return true
 	}
-	it.current = zero[T]()
+	it.MarkDone()
 	return false
 }
 

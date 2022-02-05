@@ -6,10 +6,10 @@ type skipIterable[T any] struct {
 }
 
 type skipIterator[T any] struct {
-	it      Iterator[T]
-	count   int
-	i       int
-	current T
+	it    Iterator[T]
+	count int
+	i     int
+	iteratorItem[T]
 }
 
 // Skip makes Iterable with elements excepting counted elements from ahead.
@@ -29,19 +29,25 @@ func Skip[T any](itb Iterable[T], count int) Iterable[T] {
 }
 
 func (itb *skipIterable[T]) Iterator() Iterator[T] {
-	return &skipIterator[T]{itb.itb.Iterator(), itb.count, 0, zero[T]()}
+	return &skipIterator[T]{
+		it:    itb.itb.Iterator(),
+		count: itb.count,
+	}
 }
 
 func (it *skipIterator[T]) MoveNext() bool {
+	if it.done {
+		return false
+	}
 	for it.i < it.count && it.it.MoveNext() {
 		it.i++
 	}
-	if it.it.MoveNext() {
-		it.current = it.it.Current()
-		return true
+	if !it.it.MoveNext() {
+		it.MarkDone()
+		return false
 	}
-	it.current = zero[T]()
-	return false
+	it.current = it.it.Current()
+	return true
 }
 
 func (it *skipIterator[T]) Current() T {
@@ -57,7 +63,7 @@ type skipWhileIterator[T any] struct {
 	it        Iterator[T]
 	whileFunc func(v T) bool
 	skipDone  bool
-	current   T
+	iteratorItem[T]
 }
 
 // SkipWhile makes Iterable with elements excepting elements that whileFunc is true from ahead.
@@ -77,10 +83,16 @@ func SkipWhile[T any](itb Iterable[T], whileFunc func(v T) bool) Iterable[T] {
 }
 
 func (itb *skipWhileIterable[T]) Iterator() Iterator[T] {
-	return &skipWhileIterator[T]{itb.itb.Iterator(), itb.whileFunc, false, zero[T]()}
+	return &skipWhileIterator[T]{
+		it:        itb.itb.Iterator(),
+		whileFunc: itb.whileFunc,
+	}
 }
 
 func (it *skipWhileIterator[T]) MoveNext() bool {
+	if it.done {
+		return false
+	}
 	if !it.skipDone {
 		for it.it.MoveNext() {
 			if it.whileFunc(it.it.Current()) {
@@ -92,7 +104,7 @@ func (it *skipWhileIterator[T]) MoveNext() bool {
 		}
 	}
 	if !it.it.MoveNext() {
-		it.current = zero[T]()
+		it.MarkDone()
 		return false
 	}
 	it.current = it.it.Current()

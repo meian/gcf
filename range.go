@@ -11,19 +11,19 @@ type rangeIterable[T constraints.Integer] struct {
 }
 
 type rangeIncrementIterator[T constraints.Integer] struct {
+	start   T
 	end     T
 	step    T
 	started bool
-	done    bool
-	current T
+	iteratorItem[T]
 }
 
 type rangeDecrementIterator[T constraints.Integer] struct {
+	start   T
 	end     T
 	step    T
 	started bool
-	done    bool
-	current T
+	iteratorItem[T]
 }
 
 // Range makes Iterable with increasing or decreasing elements according to step.
@@ -53,28 +53,37 @@ func Range[T constraints.Integer](start, end, step T) (Iterable[T], error) {
 
 func (itb *rangeIterable[T]) Iterator() Iterator[T] {
 	if itb.step > 0 {
-		return &rangeIncrementIterator[T]{itb.end, itb.step, false, false, itb.start - itb.step}
+		return &rangeIncrementIterator[T]{
+			start: itb.start,
+			end:   itb.end,
+			step:  itb.step,
+		}
 	}
-	return &rangeDecrementIterator[T]{itb.end, itb.step, false, false, itb.start - itb.step}
+	return &rangeDecrementIterator[T]{
+		start: itb.start,
+		end:   itb.end,
+		step:  itb.step,
+	}
 }
 
 func (it *rangeIncrementIterator[T]) MoveNext() bool {
 	if it.done {
 		return false
 	}
-	it.started = true
-	it.current += it.step
-	if it.current > it.end {
-		it.done = true
+	if !it.started {
+		it.started = true
+		it.current = it.start
+		return true
+	}
+	if it.current+it.step > it.end {
+		it.MarkDone()
 		return false
 	}
+	it.current += it.step
 	return true
 }
 
 func (it *rangeIncrementIterator[T]) Current() T {
-	if !it.started || it.done {
-		return zero[T]()
-	}
 	return it.current
 }
 
@@ -82,18 +91,20 @@ func (it *rangeDecrementIterator[T]) MoveNext() bool {
 	if it.done {
 		return false
 	}
+	if !it.started {
+		it.started = true
+		it.current = it.start
+		return true
+	}
 	it.started = true
-	it.current += it.step
-	if it.current < it.end {
-		it.done = true
+	if it.current+it.step < it.end {
+		it.MarkDone()
 		return false
 	}
+	it.current += it.step
 	return true
 }
 
 func (it *rangeDecrementIterator[T]) Current() T {
-	if !it.started || it.done {
-		return zero[T]()
-	}
 	return it.current
 }

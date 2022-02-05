@@ -6,10 +6,10 @@ type repeatIterable[T any] struct {
 }
 
 type repeatIterator[T any] struct {
-	v       T
-	count   int
-	i       int
-	current T
+	v     T
+	count int
+	i     int
+	iteratorItem[T]
 }
 
 // Repeat makes Iterable that repeat v a count times.
@@ -28,12 +28,18 @@ func Repeat[T any](v T, count int) Iterable[T] {
 }
 
 func (itb *repeatIterable[T]) Iterator() Iterator[T] {
-	return &repeatIterator[T]{itb.v, itb.count, 0, zero[T]()}
+	return &repeatIterator[T]{
+		v:     itb.v,
+		count: itb.count,
+	}
 }
 
 func (it *repeatIterator[T]) MoveNext() bool {
+	if it.done {
+		return false
+	}
 	if it.i >= it.count {
-		it.current = zero[T]()
+		it.MarkDone()
 		return false
 	}
 	it.current = it.v
@@ -51,11 +57,11 @@ type repeatIterableIterable[T any] struct {
 }
 
 type repeatIterableIterator[T any] struct {
-	genIt   func() Iterator[T]
-	it      Iterator[T]
-	count   int
-	i       int
-	current T
+	genIt func() Iterator[T]
+	it    Iterator[T]
+	count int
+	i     int
+	iteratorItem[T]
 }
 
 // RepeatIterable makes Iterable that repeat elements in itb a count times.
@@ -79,11 +85,15 @@ func RepeatIterable[T any](itb Iterable[T], count int) Iterable[T] {
 }
 
 func (itb *repeatIterableIterable[T]) Iterator() Iterator[T] {
-	return &repeatIterableIterator[T]{itb.itb.Iterator, itb.itb.Iterator(), itb.count, 0, zero[T]()}
+	return &repeatIterableIterator[T]{
+		genIt: itb.itb.Iterator,
+		it:    itb.itb.Iterator(),
+		count: itb.count,
+	}
 }
 
 func (it *repeatIterableIterator[T]) MoveNext() bool {
-	if it.i >= it.count {
+	if it.done {
 		return false
 	}
 	for it.i < it.count {
@@ -94,7 +104,7 @@ func (it *repeatIterableIterator[T]) MoveNext() bool {
 		it.it = it.genIt()
 		it.i++
 	}
-	it.current = zero[T]()
+	it.MarkDone()
 	return false
 }
 

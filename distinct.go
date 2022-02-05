@@ -5,9 +5,9 @@ type distinctIterable[T comparable] struct {
 }
 
 type distinctIterator[T comparable] struct {
-	it      Iterator[T]
-	past    map[T]struct{}
-	current T
+	it   Iterator[T]
+	past map[T]struct{}
+	iteratorItem[T]
 }
 
 // Distinct makes Iterable contains unique elements.
@@ -29,10 +29,16 @@ func Distinct[T comparable](itb Iterable[T]) Iterable[T] {
 }
 
 func (itb *distinctIterable[T]) Iterator() Iterator[T] {
-	return &distinctIterator[T]{itb.itb.Iterator(), map[T]struct{}{}, zero[T]()}
+	return &distinctIterator[T]{
+		it:   itb.itb.Iterator(),
+		past: map[T]struct{}{},
+	}
 }
 
 func (it *distinctIterator[T]) MoveNext() bool {
+	if it.done {
+		return false
+	}
 	for it.it.MoveNext() {
 		c := it.it.Current()
 		if _, ok := it.past[c]; ok {
@@ -42,7 +48,7 @@ func (it *distinctIterator[T]) MoveNext() bool {
 		it.current = c
 		return true
 	}
-	it.current = zero[T]()
+	it.MarkDone()
 	return false
 }
 
