@@ -2,17 +2,17 @@ goos: linux
 goarch: amd64
 pkg: github.com/meian/gcf/bench
 cpu: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-BenchmarkFilter_Volumes/slice=10/filter=1-8         	28708957	       200.3 ns/op	      80 B/op	       2 allocs/op
-BenchmarkFilter_Volumes/slice=10/filter=5-8         	 8568411	       694.7 ns/op	     208 B/op	       6 allocs/op
-BenchmarkFilter_Volumes/slice=10/filter=10-8        	 4603394	      1299 ns/op	     368 B/op	      11 allocs/op
-BenchmarkFilter_Volumes/slice=10/filter=100-8       	  490940	     11025 ns/op	    3248 B/op	     101 allocs/op
-BenchmarkFilter_Volumes/slice=100/filter=1-8        	 5878351	      1015 ns/op	      80 B/op	       2 allocs/op
-BenchmarkFilter_Volumes/slice=100/filter=5-8        	 1290842	      4663 ns/op	     208 B/op	       6 allocs/op
-BenchmarkFilter_Volumes/slice=100/filter=10-8       	  698023	      8287 ns/op	     368 B/op	      11 allocs/op
-BenchmarkFilter_Volumes/slice=100/filter=100-8      	   87264	     67737 ns/op	    3248 B/op	     101 allocs/op
-BenchmarkFilter_Volumes/slice=1000/filter=1-8       	  598560	      9192 ns/op	      80 B/op	       2 allocs/op
-BenchmarkFilter_Volumes/slice=1000/filter=5-8       	  157719	     44673 ns/op	     208 B/op	       6 allocs/op
-BenchmarkFilter_Volumes/slice=1000/filter=10-8      	   81381	     78245 ns/op	     368 B/op	      11 allocs/op
-BenchmarkFilter_Volumes/slice=1000/filter=100-8     	    8083	    636071 ns/op	    3248 B/op	     101 allocs/op
+BenchmarkFilter_Volumes/slice=10/filter=1-8         	28816809	       201.7 ns/op	      80 B/op	       2 allocs/op
+BenchmarkFilter_Volumes/slice=10/filter=5-8         	 8545666	       703.5 ns/op	     208 B/op	       6 allocs/op
+BenchmarkFilter_Volumes/slice=10/filter=10-8        	 4517274	      1326 ns/op	     368 B/op	      11 allocs/op
+BenchmarkFilter_Volumes/slice=10/filter=100-8       	  502249	     11192 ns/op	    3248 B/op	     101 allocs/op
+BenchmarkFilter_Volumes/slice=100/filter=1-8        	 5902690	      1026 ns/op	      80 B/op	       2 allocs/op
+BenchmarkFilter_Volumes/slice=100/filter=5-8        	 1290750	      4621 ns/op	     208 B/op	       6 allocs/op
+BenchmarkFilter_Volumes/slice=100/filter=10-8       	  673269	      8544 ns/op	     368 B/op	      11 allocs/op
+BenchmarkFilter_Volumes/slice=100/filter=100-8      	   83186	     70897 ns/op	    3248 B/op	     101 allocs/op
+BenchmarkFilter_Volumes/slice=1000/filter=1-8       	  642055	      9020 ns/op	      80 B/op	       2 allocs/op
+BenchmarkFilter_Volumes/slice=1000/filter=5-8       	  160321	     44747 ns/op	     208 B/op	       6 allocs/op
+BenchmarkFilter_Volumes/slice=1000/filter=10-8      	   79808	     80019 ns/op	     368 B/op	      11 allocs/op
+BenchmarkFilter_Volumes/slice=1000/filter=100-8     	    7898	    665460 ns/op	    3248 B/op	     101 allocs/op
 PASS
-ok  	github.com/meian/gcf/bench	81.086s
+ok  	github.com/meian/gcf/bench	82.025s
