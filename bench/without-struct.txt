@@ -2,17 +2,10 @@ goos: linux
 goarch: amd64
 pkg: github.com/meian/gcf/bench
 cpu: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-BenchmarkFilter_Volumes/slice=10/filter=1-8         	30147481	       199.2 ns/op	      80 B/op	       2 allocs/op
-BenchmarkFilter_Volumes/slice=10/filter=5-8         	 8562703	       701.3 ns/op	     208 B/op	       6 allocs/op
-BenchmarkFilter_Volumes/slice=10/filter=10-8        	 4393983	      1327 ns/op	     368 B/op	      11 allocs/op
-BenchmarkFilter_Volumes/slice=10/filter=100-8       	  528638	     11257 ns/op	    3248 B/op	     101 allocs/op
-BenchmarkFilter_Volumes/slice=100/filter=1-8        	 5911489	      1014 ns/op	      80 B/op	       2 allocs/op
-BenchmarkFilter_Volumes/slice=100/filter=5-8        	 1312557	      4566 ns/op	     208 B/op	       6 allocs/op
-BenchmarkFilter_Volumes/slice=100/filter=10-8       	  749290	      8530 ns/op	     368 B/op	      11 allocs/op
-BenchmarkFilter_Volumes/slice=100/filter=100-8      	   83659	     70789 ns/op	    3248 B/op	     101 allocs/op
-BenchmarkFilter_Volumes/slice=1000/filter=1-8       	  643104	      9009 ns/op	      80 B/op	       2 allocs/op
-BenchmarkFilter_Volumes/slice=1000/filter=5-8       	  157338	     44919 ns/op	     208 B/op	       6 allocs/op
-BenchmarkFilter_Volumes/slice=1000/filter=10-8      	   80065	     80516 ns/op	     368 B/op	      11 allocs/op
-BenchmarkFilter_Volumes/slice=1000/filter=100-8     	    8997	    667057 ns/op	    3248 B/op	     101 allocs/op
+BenchmarkFilter_Volumes/slice=10/filter=1-8         	24976196	       210.2 ns/op	      80 B/op	       2 allocs/op
+BenchmarkFilter_Volumes/slice=10/filter=5-8         	 7946065	       738.8 ns/op	     208 B/op	       6 allocs/op
+BenchmarkFilter_Volumes/slice=10/filter=10-8        	 4252044	      1394 ns/op	     368 B/op	      11 allocs/op
+BenchmarkFilter_Volumes/slice=10/filter=100-8       	  446185	     11833 ns/op	    3248 B/op	     101 allocs/op
+BenchmarkFilter_Volumes/slice=10/filter=1000-8      	   48360	    122594 ns/op	   32048 B/op	    1001 allocs/op
 PASS
-ok  	github.com/meian/gcf/bench	83.619s
+ok  	github.com/meian/gcf/bench	36.968s
