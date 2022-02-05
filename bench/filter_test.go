@@ -8,8 +8,8 @@ import (
 )
 
 func BenchmarkFilter_Volumes(b *testing.B) {
-	sLens := []int{10, 100, 1000}
-	fLens := []int{1, 5, 10, 100}
+	sLens := []int{10}
+	fLens := []int{1, 5, 10, 100, 1000}
 	for _, sLen := range sLens {
 		for _, fLen := range fLens {
 			name := fmt.Sprintf("slice=%d/filter=%d", sLen, fLen)
