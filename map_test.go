@@ -53,6 +53,9 @@ func TestMap(t *testing.T) {
 		})
 	}
 
+	itbi := gcf.Map(itb, func(v string) int { return len(v) })
+	testBeforeAndAfter(t, itbi)
+
 	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.Map(itb, func(v int) int { return v })
 	})
