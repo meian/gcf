@@ -29,11 +29,26 @@ func testBeforeAndAfter[T any](t *testing.T, itb gcf.Iterable[T]) {
 //
 // - emptyIterable chaining
 //   - test any func chaining result from emptyIterable is emptyIterable or not.
+// - no panic from empty
+//   - test that panic does not occurred when any func chaining from empty elements that are not emptyIterable.
 func testEmpties(t *testing.T, f func(itb gcf.Iterable[int]) gcf.Iterable[int]) {
 	t.Helper()
 	t.Run("emptyIterable chaining", func(t *testing.T) {
 		itb := gcf.FromSlice([]int{}) // returns emptyIterable
 		itb = f(itb)
 		assert.True(t, gcf.IsEmptyIterable(itb), "%v", gcf.ToSlice(itb))
+	})
+	t.Run("no panic from empty", func(t *testing.T) {
+		defer func() {
+			err := recover()
+			if err != nil {
+				t.Errorf("%v", err)
+			}
+		}()
+		// make empty elements but not emptyIterable.
+		itb := gcf.FromSlice([]int{1})
+		itb = gcf.Filter(itb, func(v int) bool { return false })
+		itb = f(itb)
+		_ = gcf.ToSlice(itb)
 	})
 }
