@@ -87,7 +87,7 @@ func TestSkip(t *testing.T) {
 	itb = gcf.Skip(itb, 2)
 	testBeforeAndAfter(t, itb)
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.Skip(itb, 0)
 	})
 }
@@ -171,7 +171,7 @@ func TestSkipWhile(t *testing.T) {
 	itb = gcf.SkipWhile(itb, func(v int) bool { return v < 2 })
 	testBeforeAndAfter(t, itb)
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.SkipWhile(itb, func(v int) bool { return true })
 	})
 }

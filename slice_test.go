@@ -95,7 +95,7 @@ func TestFromSlice_pointer(t *testing.T) {
 	itb := gcf.FromSlice([]*int{&i1, &i2, &i3})
 	testBeforeAndAfter(t, itb)
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.FromSlice([]int{})
 	})
 }
@@ -147,7 +147,7 @@ func TestFromSliceImmutable(t *testing.T) {
 	itb := gcf.FromSliceImmutable([]int{1, 2, 3})
 	testBeforeAndAfter(t, itb)
 
-	testEmptyChain(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.FromSliceImmutable([]int{})
 	})
 }
