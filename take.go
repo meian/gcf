@@ -6,11 +6,10 @@ type takeIterable[T any] struct {
 }
 
 type takeIterator[T any] struct {
-	it      Iterator[T]
-	count   int
-	i       int
-	done    bool
-	current T
+	it    Iterator[T]
+	count int
+	i     int
+	iteratorItem[T]
 }
 
 // Take makes Iterable with count elements from ahead.
@@ -30,7 +29,10 @@ func Take[T any](itb Iterable[T], count int) Iterable[T] {
 }
 
 func (itb *takeIterable[T]) Iterator() Iterator[T] {
-	return &takeIterator[T]{itb.itb.Iterator(), itb.count, 0, false, zero[T]()}
+	return &takeIterator[T]{
+		it:    itb.itb.Iterator(),
+		count: itb.count,
+	}
 }
 
 func (it *takeIterator[T]) MoveNext() bool {
@@ -38,17 +40,15 @@ func (it *takeIterator[T]) MoveNext() bool {
 		return false
 	}
 	if it.count <= it.i {
-		it.done = true
-		it.current = zero[T]()
+		it.MarkDone()
 		return false
 	}
-	it.i++
 	if it.it.MoveNext() {
+		it.i++
 		it.current = it.it.Current()
 		return true
 	}
-	it.done = true
-	it.current = zero[T]()
+	it.MarkDone()
 	return false
 }
 
@@ -64,8 +64,7 @@ type takeWhileIterable[T any] struct {
 type takeWhileIterator[T any] struct {
 	it        Iterator[T]
 	whileFunc func(v T) bool
-	done      bool
-	current   T
+	iteratorItem[T]
 }
 
 // TakeWhile makes Iterable with elements in which whileFunc is true from ahead.
@@ -85,7 +84,10 @@ func TakeWhile[T any](itb Iterable[T], whileFunc func(v T) bool) Iterable[T] {
 }
 
 func (itb *takeWhileIterable[T]) Iterator() Iterator[T] {
-	return &takeWhileIterator[T]{itb.itb.Iterator(), itb.whileFunc, false, zero[T]()}
+	return &takeWhileIterator[T]{
+		it:        itb.itb.Iterator(),
+		whileFunc: itb.whileFunc,
+	}
 }
 
 func (it *takeWhileIterator[T]) MoveNext() bool {
@@ -93,8 +95,7 @@ func (it *takeWhileIterator[T]) MoveNext() bool {
 		return false
 	}
 	if !it.it.MoveNext() || !it.whileFunc(it.it.Current()) {
-		it.done = true
-		it.current = zero[T]()
+		it.MarkDone()
 		return false
 	}
 	it.current = it.it.Current()

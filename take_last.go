@@ -6,11 +6,11 @@ type takeLastIterable[T any] struct {
 }
 
 type takeLastIterator[T any] struct {
-	it      Iterator[T]
-	count   int
-	i       int
-	built   bool
-	current T
+	it    Iterator[T]
+	count int
+	i     int
+	built bool
+	iteratorItem[T]
 }
 
 // TakeLast makes Iterable with count elements from end.
@@ -30,15 +30,21 @@ func TakeLast[T any](itb Iterable[T], count int) Iterable[T] {
 }
 
 func (itb *takeLastIterable[T]) Iterator() Iterator[T] {
-	return &takeLastIterator[T]{itb.itb.Iterator(), itb.count, 0, false, zero[T]()}
+	return &takeLastIterator[T]{
+		it:    itb.itb.Iterator(),
+		count: itb.count,
+	}
 }
 
 func (it *takeLastIterator[T]) MoveNext() bool {
+	if it.done {
+		return false
+	}
 	if !it.built {
 		it.build()
 	}
 	if !it.it.MoveNext() {
-		it.current = zero[T]()
+		it.MarkDone()
 		return false
 	}
 	it.current = it.it.Current()
@@ -68,7 +74,7 @@ type takeLastWhileIterator[T any] struct {
 	it        Iterator[T]
 	whileFunc func(v T) bool
 	built     bool
-	current   T
+	iteratorItem[T]
 }
 
 // TakeLastWhile makes Iterable with elements in which whileFunc is true from end.
@@ -88,15 +94,21 @@ func TakeLastWhile[T any](itb Iterable[T], whileFunc func(v T) bool) Iterable[T]
 }
 
 func (itb *takeLastWhileIterable[T]) Iterator() Iterator[T] {
-	return &takeLastWhileIterator[T]{itb.itb.Iterator(), itb.whileFunc, false, zero[T]()}
+	return &takeLastWhileIterator[T]{
+		it:        itb.itb.Iterator(),
+		whileFunc: itb.whileFunc,
+	}
 }
 
 func (it *takeLastWhileIterator[T]) MoveNext() bool {
+	if it.done {
+		return false
+	}
 	if !it.built {
 		it.build()
 	}
 	if !it.it.MoveNext() {
-		it.current = zero[T]()
+		it.MarkDone()
 		return false
 	}
 	it.current = it.it.Current()

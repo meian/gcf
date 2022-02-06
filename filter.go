@@ -6,9 +6,9 @@ type filterIterable[T any] struct {
 }
 
 type filterIterator[T any] struct {
-	iterator   Iterator[T]
+	it         Iterator[T]
 	filterFunc func(v T) bool
-	current    T
+	iteratorItem[T]
 }
 
 // Filter makes Iterable with elements which filterFunc is true.
@@ -28,18 +28,24 @@ func Filter[T any](itb Iterable[T], filterFunc func(v T) bool) Iterable[T] {
 }
 
 func (itb *filterIterable[T]) Iterator() Iterator[T] {
-	return &filterIterator[T]{itb.itb.Iterator(), itb.filterFunc, zero[T]()}
+	return &filterIterator[T]{
+		it:         itb.itb.Iterator(),
+		filterFunc: itb.filterFunc,
+	}
 }
 
 func (it *filterIterator[T]) MoveNext() bool {
-	for it.iterator.MoveNext() {
-		c := it.iterator.Current()
+	if it.done {
+		return false
+	}
+	for it.it.MoveNext() {
+		c := it.it.Current()
 		if it.filterFunc(c) {
 			it.current = c
 			return true
 		}
 	}
-	it.current = zero[T]()
+	it.MarkDone()
 	return false
 }
 

@@ -2,9 +2,9 @@ goos: linux
 goarch: amd64
 pkg: github.com/meian/gcf/bench
 cpu: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-BenchmarkFilter_Compare/filter-8         	 2325522	      2551 ns/op	     144 B/op	       4 allocs/op
-BenchmarkFilter_Compare/if-func-8        	 9611860	       643.7 ns/op	       0 B/op	       0 allocs/op
-BenchmarkFilter_Compare/if-inline-8      	155326840	        38.86 ns/op	       0 B/op	       0 allocs/op
-BenchmarkFilter_Compare/chan-8           	   41066	    151074 ns/op	     384 B/op	       6 allocs/op
+BenchmarkFilter_Compare/filter-8         	 2228178	      2708 ns/op	     192 B/op	       4 allocs/op
+BenchmarkFilter_Compare/if-func-8        	 9741103	       630.9 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFilter_Compare/if-inline-8      	155362218	        38.69 ns/op	       0 B/op	       0 allocs/op
+BenchmarkFilter_Compare/chan-8           	   51542	    115194 ns/op	     384 B/op	       6 allocs/op
 PASS
-ok  	github.com/meian/gcf/bench	33.025s
+ok  	github.com/meian/gcf/bench	32.611s

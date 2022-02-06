@@ -8,7 +8,7 @@ type mapIterable[T any, R any] struct {
 type mapIterator[T any, R any] struct {
 	it      Iterator[T]
 	mapFunc func(T) R
-	current R
+	iteratorItem[R]
 }
 
 // Map makes Iterable in elements convert by mapFunc.
@@ -29,12 +29,18 @@ func Map[T any, R any](itb Iterable[T], mapFunc func(v T) R) Iterable[R] {
 }
 
 func (itb *mapIterable[T, R]) Iterator() Iterator[R] {
-	return &mapIterator[T, R]{itb.itb.Iterator(), itb.mapFunc, zero[R]()}
+	return &mapIterator[T, R]{
+		it:      itb.itb.Iterator(),
+		mapFunc: itb.mapFunc,
+	}
 }
 
 func (it *mapIterator[T, R]) MoveNext() bool {
+	if it.done {
+		return false
+	}
 	if !it.it.MoveNext() {
-		it.current = zero[R]()
+		it.MarkDone()
 		return false
 	}
 	it.current = it.mapFunc(it.it.Current())
@@ -54,7 +60,7 @@ type flatMapIterator[T any, R any] struct {
 	it      Iterator[T]
 	mapFunc func(T) []R
 	its     Iterator[R]
-	current R
+	iteratorItem[R]
 }
 
 // FlatMap makes Iterable in elements in slice converted by mapFunc.
@@ -79,10 +85,17 @@ func FlatMap[T any, R any](itb Iterable[T], mapFunc func(v T) []R) Iterable[R] {
 }
 
 func (itb *flatMapIterable[T, R]) Iterator() Iterator[R] {
-	return &flatMapIterator[T, R]{itb.itb.Iterator(), itb.mapFunc, emptyIter[R](), zero[R]()}
+	return &flatMapIterator[T, R]{
+		it:      itb.itb.Iterator(),
+		mapFunc: itb.mapFunc,
+		its:     emptyIter[R](),
+	}
 }
 
 func (it *flatMapIterator[T, R]) MoveNext() bool {
+	if it.done {
+		return false
+	}
 	for {
 		if it.its.MoveNext() {
 			it.current = it.its.Current()
@@ -95,7 +108,7 @@ func (it *flatMapIterator[T, R]) MoveNext() bool {
 			it.its = makeSliceIterator(s)
 		}
 	}
-	it.current = zero[R]()
+	it.MarkDone()
 	return false
 }
 

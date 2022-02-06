@@ -2,11 +2,11 @@ goos: linux
 goarch: amd64
 pkg: github.com/meian/gcf/bench
 cpu: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
-BenchmarkRange/start=1/end=1000000/step=1/count=1000000-8         	     974	   2395828 ns/op	      32 B/op	       1 allocs/op
-BenchmarkRange/start=1/end=1000000/step=10/count=100000-8         	    8696	    239377 ns/op	      32 B/op	       1 allocs/op
-BenchmarkRange/start=1/end=1000000/step=100/count=10000-8         	   95115	     24020 ns/op	      32 B/op	       1 allocs/op
-BenchmarkRange/start=1000000/end=1/step=-1/count=1000000-8        	     972	   2395774 ns/op	      32 B/op	       1 allocs/op
-BenchmarkRange/start=1000000/end=1/step=-10/count=100000-8        	    9103	    239779 ns/op	      32 B/op	       1 allocs/op
-BenchmarkRange/start=1000000/end=1/step=-100/count=10000-8        	   97932	     24022 ns/op	      32 B/op	       1 allocs/op
+BenchmarkRange/start=1/end=1000000/step=1/count=1000000-8         	     914	   2415274 ns/op	      48 B/op	       1 allocs/op
+BenchmarkRange/start=1/end=1000000/step=10/count=100000-8         	    8284	    241607 ns/op	      48 B/op	       1 allocs/op
+BenchmarkRange/start=1/end=1000000/step=100/count=10000-8         	   97126	     24106 ns/op	      48 B/op	       1 allocs/op
+BenchmarkRange/start=1000000/end=1/step=-1/count=1000000-8        	     952	   2388293 ns/op	      48 B/op	       1 allocs/op
+BenchmarkRange/start=1000000/end=1/step=-10/count=100000-8        	    9018	    238924 ns/op	      48 B/op	       1 allocs/op
+BenchmarkRange/start=1000000/end=1/step=-100/count=10000-8        	   93102	     24047 ns/op	      48 B/op	       1 allocs/op
 PASS
-ok  	github.com/meian/gcf/bench	14.651s
+ok  	github.com/meian/gcf/bench	14.336s
