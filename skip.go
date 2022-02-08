@@ -17,12 +17,16 @@ type skipIterator[T any] struct {
 //   itb := gcf.FromSlice([]{1, 2, 3})
 //   itb = gcf.Skip(itb, 2)
 //
-// If count is 0 or negative, returns original Iterable.
+// If count is 0, returns original Iterable.
+// If count is negative, raises panic.
 func Skip[T any](itb Iterable[T], count int) Iterable[T] {
+	if count < 0 {
+		panic("count for Skip must not be negative.")
+	}
 	if isEmpty(itb) {
 		return orEmpty(itb)
 	}
-	if count < 1 {
+	if count == 0 {
 		return itb
 	}
 	return &skipIterable[T]{itb, count}

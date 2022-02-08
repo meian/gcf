@@ -14,9 +14,10 @@ func TestTakeLast(t *testing.T) {
 		count int
 	}
 	tests := []struct {
-		name string
-		args args
-		want []int
+		name      string
+		args      args
+		want      []int
+		wantPanic bool
 	}{
 		{
 			name: "take last 1 from slice 3",
@@ -64,7 +65,7 @@ func TestTakeLast(t *testing.T) {
 				itb:   gcf.FromSlice([]int{1, 2, 3}),
 				count: -1,
 			},
-			want: []int{},
+			wantPanic: true,
 		},
 		{
 			name: "nil Iterable",
@@ -74,9 +75,23 @@ func TestTakeLast(t *testing.T) {
 			},
 			want: []int{},
 		},
+		{
+			name: "nil and negative",
+			args: args{
+				itb:   nil,
+				count: -1,
+			},
+			wantPanic: true,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
+			if tt.wantPanic {
+				assert.Panics(t, func() {
+					_ = gcf.TakeLast(tt.args.itb, tt.args.count)
+				})
+				return
+			}
 			itb := gcf.TakeLast(tt.args.itb, tt.args.count)
 			s := gcf.ToSlice(itb)
 			assert.Equal(t, tt.want, s)

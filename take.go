@@ -17,12 +17,16 @@ type takeIterator[T any] struct {
 //   itb := gcf.FromSlice([]{1, 2, 3})
 //   itb = gcf.Take(itb, 2)
 //
-// If count is 0 or negative, returns empty Iterable.
+// If count is 0, returns empty Iterable.
+// If count is negative, raises panic.
 func Take[T any](itb Iterable[T], count int) Iterable[T] {
+	if count < 0 {
+		panic("count for Take must not be negative.")
+	}
 	if isEmpty(itb) {
 		return orEmpty(itb)
 	}
-	if count < 1 {
+	if count == 0 {
 		return empty[T]()
 	}
 	return &takeIterable[T]{itb, count}

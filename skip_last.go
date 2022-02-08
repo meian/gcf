@@ -18,12 +18,16 @@ type skipLastIterator[T any] struct {
 //   itb := gcf.FromSlice([]{1, 2, 3})
 //   itb = gcf.SkipLast(itb, 2)
 //
-// If count is 0 or negative, returns original Iterable.
+// If count is 0, returns original Iterable.
+// If count is negative, raises panic.
 func SkipLast[T any](itb Iterable[T], count int) Iterable[T] {
+	if count < 0 {
+		panic("count for SkipLast must not be negative.")
+	}
 	if isEmpty(itb) {
 		return orEmpty(itb)
 	}
-	if count < 1 {
+	if count == 0 {
 		return itb
 	}
 	return &skipLastIterable[T]{
