@@ -16,9 +16,13 @@ type repeatIterator[T any] struct {
 //
 //   itb = gcf.Repeat(1, 3)
 //
-// If count is 0 or negative, return Iterable with no element.
+// If count is 0, returns empty Iterable.
+// If count is negative, raises panic.
 func Repeat[T any](v T, count int) Iterable[T] {
-	if count < 1 {
+	if count < 0 {
+		panic("count for Repeat must not be negative.")
+	}
+	if count == 0 {
 		return empty[T]()
 	}
 	if count == 1 {
@@ -70,12 +74,16 @@ type repeatIterableIterator[T any] struct {
 //   itb := gcf.FromSlice(s)
 //   itb = gcf.RepeatIterable(itb, 3)
 //
-// If count is 0 or negative, return Iterable with no element.
+// If count is 0, returns empty Iterable.
+// If count is negative, raises panic.
 func RepeatIterable[T any](itb Iterable[T], count int) Iterable[T] {
+	if count < 0 {
+		panic("count for RepeatIterable must not be negative.")
+	}
 	if isEmpty(itb) {
 		return orEmpty(itb)
 	}
-	if count < 1 {
+	if count == 0 {
 		return empty[T]()
 	}
 	if count == 1 {

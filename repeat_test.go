@@ -10,10 +10,11 @@ import (
 
 func TestRepeat(t *testing.T) {
 	tests := []struct {
-		name  string
-		v     int
-		count int
-		want  []int
+		name      string
+		v         int
+		count     int
+		want      []int
+		wantPanic bool
 	}{
 		{
 			name:  "3 times",
@@ -34,15 +35,21 @@ func TestRepeat(t *testing.T) {
 			want:  []int{},
 		},
 		{
-			name:  "negative times",
-			v:     1,
-			count: -1,
-			want:  []int{},
+			name:      "negative times",
+			v:         1,
+			count:     -1,
+			wantPanic: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			assert := assert.New(t)
+			if tt.wantPanic {
+				assert.Panics(func() {
+					_ = gcf.Repeat(tt.v, tt.count)
+				})
+				return
+			}
 			itb := gcf.Repeat(tt.v, tt.count)
 			s := gcf.ToSlice(itb)
 			assert.Equal(tt.want, s)
@@ -55,9 +62,6 @@ func TestRepeat(t *testing.T) {
 	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
 		return gcf.Repeat(1, 0)
 	})
-	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
-		return gcf.Repeat(1, -1)
-	})
 }
 
 func ExampleRepeat() {
@@ -69,10 +73,11 @@ func ExampleRepeat() {
 
 func TestRepeatIterable(t *testing.T) {
 	tests := []struct {
-		name  string
-		itb   gcf.Iterable[int]
-		count int
-		want  []int
+		name      string
+		itb       gcf.Iterable[int]
+		count     int
+		want      []int
+		wantPanic bool
 	}{
 		{
 			name:  "3 times",
@@ -105,15 +110,27 @@ func TestRepeatIterable(t *testing.T) {
 			want:  []int{},
 		},
 		{
-			name:  "negative times",
-			itb:   gcf.FromSlice([]int{1, 2, 3}),
-			count: -1,
-			want:  []int{},
+			name:      "negative times",
+			itb:       gcf.FromSlice([]int{1, 2, 3}),
+			count:     -1,
+			wantPanic: true,
+		},
+		{
+			name:      "nil and negative",
+			itb:       nil,
+			count:     -1,
+			wantPanic: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			assert := assert.New(t)
+			if tt.wantPanic {
+				assert.Panics(func() {
+					_ = gcf.RepeatIterable(tt.itb, tt.count)
+				})
+				return
+			}
 			itb := gcf.RepeatIterable(tt.itb, tt.count)
 			s := gcf.ToSlice(itb)
 			assert.Equal(tt.want, s)
@@ -125,10 +142,7 @@ func TestRepeatIterable(t *testing.T) {
 	testBeforeAndAfter(t, itb)
 
 	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
-		return gcf.RepeatIterable(itb, 0)
-	})
-	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
-		return gcf.RepeatIterable(itb, -1)
+		return gcf.RepeatIterable(itb, 2)
 	})
 }
 
