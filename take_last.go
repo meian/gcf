@@ -18,12 +18,16 @@ type takeLastIterator[T any] struct {
 //   itb := gcf.FromSlice([]{1, 2, 3})
 //   itb = gcf.TakeLast(itb, 2)
 //
-// If count is 0 or negative, returns empty Iterable.
+// If count is 0, returns empty Iterable.
+// If count is negative, raises panic.
 func TakeLast[T any](itb Iterable[T], count int) Iterable[T] {
+	if count < 0 {
+		panic("count for TakeLast must not be negative.")
+	}
 	if isEmpty(itb) {
 		return orEmpty(itb)
 	}
-	if count < 1 {
+	if count == 0 {
 		return empty[T]()
 	}
 	return &takeLastIterable[T]{itb, count}
