@@ -3,6 +3,7 @@
 gcf(Go Colletion Framework) は Generics を用いて様々なコレクション操作を提供するライブラリです。  
 コレクションに対する操作を共通のインターフェイスを用いて行うことにより、操作の合成を容易に行うことができるようになります。
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/meian/gcf.svg)](https://pkg.go.dev/github.com/meian/gcf)
 [![codecov](https://codecov.io/gh/meian/gcf/branch/main/graph/badge.svg?token=PDHAVSGE0E)](https://codecov.io/gh/meian/gcf)
 
 ## モチベーション
