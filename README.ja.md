@@ -3,6 +3,7 @@
 gcf(Go Colletion Framework) は Generics を用いて様々なコレクション操作を提供するライブラリです。  
 コレクションに対する操作を共通のインターフェイスを用いて行うことにより、操作の合成を容易に行うことができるようになります。
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/meian/gcf.svg)](https://pkg.go.dev/github.com/meian/gcf)
 [![codecov](https://codecov.io/gh/meian/gcf/branch/main/graph/badge.svg?token=PDHAVSGE0E)](https://codecov.io/gh/meian/gcf)
 
 ## モチベーション
@@ -111,43 +112,15 @@ gcfのパフォーマンスは以下の特性を持っています。
 
 詳細は [ベンチマークのREADME](bench/README.ja.md) にまとめたのでそちらを参考にしてください。
 
-## 機能
+## 今後検討中の機能
 
-### 提供済
-
-以下の関数を提供しています。  
-機能詳細については関数のコメントを参照してください。  
-コメントが未記載の実装もありますが、今後追記していきます。  
-([pkg.go.dev](https://pkg.go.dev/) の準備ができたらそちらのリンクに切り替える予定)
-
-- `Concat`
-- `Distinct`
-- `Filter`
-- `FlatMap`
-- `FromSlice`
-- `FromSliceImmutable`
-- `Map`
-- `Range`
-- `Repeat`
-- `RepeatIterable`
-- `Reverse`
-- `Skip`
-- `SkipWhile`
-- `SortAsc`
-- `SortBy`
-- `SortDesc`
-- `Take`
-- `TakeWhile`
-
-### 今後提供予定
-
-- `Last`
-  - 末尾から指定した件数のみを返す
-- `SkipLast`
-  - 末尾から指定した件数を除く
 - channel系の機能
   - channelからIterableを作成
   - Iterableの結果をchannelで取得
+  - 設計イメージが思い浮かばないので休止中
+- `Zip`
+  - 複数のIterableの要素を合成して一つのIterableにまとめる
+  - それぞれのIterableの要素数が違う場合はどう処理するかは他の実装を参考にする予定
 
 ----
 

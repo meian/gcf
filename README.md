@@ -4,6 +4,7 @@
 gcf (Go Colletion Framework) is a library that provides various collection operations using Generics.  
 By operating on the collection using a common interface, you can easily composite the operations.
 
+[![Go Reference](https://pkg.go.dev/badge/github.com/meian/gcf.svg)](https://pkg.go.dev/github.com/meian/gcf)
 [![codecov](https://codecov.io/gh/meian/gcf/branch/main/graph/badge.svg?token=PDHAVSGE0E)](https://codecov.io/gh/meian/gcf)
 
 ## Motivation
@@ -112,43 +113,15 @@ Due to the characteristics of the library, it is processed repeatedly, so it is 
 
 Please refer to the [Benchmark README](bench/README.md) for details.
 
-## Function
+## Under the consideration
 
-### Implemented
-
-The following functions are implemented.  
-See function comments for feature details.  
-There are some implementations for which comments have not been described, but we will add them in the future.  
-(Once [pkg.go.dev](https://pkg.go.dev/) is prepared, this section is switched link to there.)
-
-- `Concat`
-- `Distinct`
-- `Filter`
-- `FlatMap`
-- `FromSlice`
-- `FromSliceImmutable`
-- `Map`
-- `Range`
-- `Repeat`
-- `RepeatIterable`
-- `Reverse`
-- `Skip`
-- `SkipWhile`
-- `SortAsc`
-- `SortBy`
-- `SortDesc`
-- `Take`
-- `TakeWhile`
-
-### To Be
-
-- `Last`
-  - Returns only the specified number from the end
-- `SkipLast`
-  - Excluding the specified number from the end
-- channel function
+- channel function implements
   - Create Iterable from channel
   - Get the result of Iterable on channel
+  - It's suspended cause I don't understand good design.
+- `Zip`
+  - Combine multiple Iterable elements into one Iterable.
+  - We plan to refer to other implementations for how to handle when the number of elements of each Iterable is different.
 
 ----
 
