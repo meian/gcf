@@ -1,0 +1,42 @@
+run:
+  timeout: 1m
+  issue-exit-code: 1
+  tests: true
+  skip-dirs-use-default: true
+  allow-parallel-runners: true
+  go: "1.18"
+linters:
+  enable-all: true
+  disable:
+    # deprecated
+    - deadcode
+    - exhaustivestruct
+    - golint
+    - ifshort
+    - interfacer
+    - maligned
+    - nosnakecase
+    - scopelint
+    - structcheck
+    - varcheck
+    # ignore for generics
+    - rowserrcheck
+    - sqlclosecheck
+    - wastedassign
+    # unused rules
+    - gofumpt
+    - gomnd
+    - ireturn
+    - nlreturn
+    - paralleltest
+    - wsl
+  fast: false
+issues:
+  exclude-rules:
+    - path: _test.go
+      linters:
+        - cyclop
+        - dupl
+        - funlen
+        - gocognit
+        - varnamelen
