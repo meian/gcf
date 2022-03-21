@@ -5,30 +5,16 @@
 
 # Customize each tool. If analyses fail, try adjusting each option referencing the following example.
 linter:
-
-#   # GolangCI-Lint example. See https://help.sider.review/tools/go/golangci-lint
-#   golangci_lint:
-#     root_dir: project/
-#     target: "src/..."
-#     config: config/.golangci.yml
-#     disable:
-#       - govet
-#       - unused
-#     disable-all: true
-#     enable:
-#       - golint
-#       - gosec
-#     fast: true
-#     no-config: true
-#     presets: [bugs, performance]
+  #   # GolangCI-Lint example. See https://help.sider.review/tools/go/golangci-lint
+  golangci_lint:
+    target: "./..."
+    config: sider/config/.golangci.yml
 #     skip-dirs:
 #       - src/external_libs/
 #     skip-dirs-use-default: false
 #     skip-files:
 #       - ".*\\.my\\.go$"
 #       - lib/bad.go
-#     tests: false
-#     uniq-by-line: false
 
 #   # hadolint example. See https://help.sider.review/tools/dockerfile/hadolint
 #   hadolint:
