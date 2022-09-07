@@ -5,6 +5,8 @@ gcf(Go Colletion Framework) は Generics を用いて様々なコレクション
 
 [![Go Reference](https://pkg.go.dev/badge/github.com/meian/gcf.svg)](https://pkg.go.dev/github.com/meian/gcf)
 [![codecov](https://codecov.io/gh/meian/gcf/branch/main/graph/badge.svg?token=PDHAVSGE0E)](https://codecov.io/gh/meian/gcf)
+[![Go Report Card](https://goreportcard.com/badge/github.com/meian/gcf)](https://goreportcard.com/report/github.com/meian/gcf)
+
 
 ## モチベーション
 
