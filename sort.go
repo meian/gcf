@@ -1,8 +1,9 @@
 package gcf
 
 import (
-	"constraints"
 	"sort"
+
+	"golang.org/x/exp/constraints"
 )
 
 type sortIterable[T any] struct {
@@ -57,8 +58,8 @@ func (s funcSorter[T]) Sort() { sort.Sort(s) }
 
 // SortAsc makes Iterable with sorted by ascending elements.
 //
-//   itb := gcf.FromSlice([]int{1, 3, 2})
-//   itb = gcf.SortAsc(itb)
+//	itb := gcf.FromSlice([]int{1, 3, 2})
+//	itb = gcf.SortAsc(itb)
 func SortAsc[T constraints.Ordered](itb Iterable[T]) Iterable[T] {
 	if isEmpty(itb) {
 		return orEmpty(itb)
@@ -69,8 +70,8 @@ func SortAsc[T constraints.Ordered](itb Iterable[T]) Iterable[T] {
 
 // SortDesc makes Iterable with sorted by descending elements.
 //
-//   itb := gcf.FromSlice([]int{1, 3, 2})
-//   itb = gcf.SortDesc(itb)
+//	itb := gcf.FromSlice([]int{1, 3, 2})
+//	itb = gcf.SortDesc(itb)
 func SortDesc[T constraints.Ordered](itb Iterable[T]) Iterable[T] {
 	if isEmpty(itb) {
 		return orEmpty(itb)
@@ -81,9 +82,9 @@ func SortDesc[T constraints.Ordered](itb Iterable[T]) Iterable[T] {
 
 // SortBy makes iterable with elements sorted by provided less function.
 //
-//   type data struct { id int }
-//   itb := gcf.FromSlice([]data{{1}, {3}, {2}})
-//   itb = gcf.SortBy(itb, func(x, y data) bool { return x.id < y.id })
+//	type data struct { id int }
+//	itb := gcf.FromSlice([]data{{1}, {3}, {2}})
+//	itb = gcf.SortBy(itb, func(x, y data) bool { return x.id < y.id })
 //
 // The less function takes x element and y element, and returns true if x is less than y.
 func SortBy[T any](itb Iterable[T], less func(x, y T) bool) Iterable[T] {
