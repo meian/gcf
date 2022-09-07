@@ -1,7 +1,7 @@
 package gcf
 
 import (
-	"constraints"
+	"golang.org/x/exp/constraints"
 )
 
 type rangeIterable[T constraints.Integer] struct {
@@ -28,7 +28,7 @@ type rangeDecrementIterator[T constraints.Integer] struct {
 
 // Range makes Iterable with increasing or decreasing elements according to step.
 //
-//   itb := gcf.Range(1, 10, 3)
+//	itb := gcf.Range(1, 10, 3)
 //
 // If step is positive, elements is enumerated from start to end with increment by step.
 // If step is negative, elements is enumerated from start to end with decrement by step.
