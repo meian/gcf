@@ -158,7 +158,7 @@ func ExampleFlatMap() {
 	itb := gcf.FromSlice(s)
 	itbs := gcf.FlatMap(itb, func(v string) []string {
 		r := make([]string, 0, len(v))
-		for _, c := range []rune(v) {
+		for _, c := range v {
 			r = append(r, fmt.Sprintf("%c", c))
 		}
 		return r

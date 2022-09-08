@@ -12,13 +12,13 @@ type repeatIterator[T any] struct {
 	iteratorItem[T]
 }
 
-// Repeat makes Iterable that repeat v a count times.
+// Repeat makes Iterable that repeat value a count times.
 //
-//   itb = gcf.Repeat(1, 3)
+//	itb = gcf.Repeat(1, 3)
 //
 // If count is 0, returns empty Iterable.
 // If count is negative, raises panic.
-func Repeat[T any](v T, count int) Iterable[T] {
+func Repeat[T any](value T, count int) Iterable[T] {
 	if count < 0 {
 		panic("count for Repeat must not be negative.")
 	}
@@ -26,9 +26,9 @@ func Repeat[T any](v T, count int) Iterable[T] {
 		return empty[T]()
 	}
 	if count == 1 {
-		return FromSlice([]T{v})
+		return FromSlice([]T{value})
 	}
-	return &repeatIterable[T]{v, count}
+	return &repeatIterable[T]{value, count}
 }
 
 func (itb *repeatIterable[T]) Iterator() Iterator[T] {
@@ -70,9 +70,9 @@ type repeatIterableIterator[T any] struct {
 
 // RepeatIterable makes Iterable that repeat elements in itb a count times.
 //
-//   s := []int{1, 2, 3}
-//   itb := gcf.FromSlice(s)
-//   itb = gcf.RepeatIterable(itb, 3)
+//	s := []int{1, 2, 3}
+//	itb := gcf.FromSlice(s)
+//	itb = gcf.RepeatIterable(itb, 3)
 //
 // If count is 0, returns empty Iterable.
 // If count is negative, raises panic.

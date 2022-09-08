@@ -1,0 +1,28 @@
+name: reviewdog
+
+on:
+  pull_request:
+    paths:
+      - "**.go"
+      - ".github/config/.golangci.yml"
+      - ".github/workflows/lint.yml"
+
+jobs:
+  # NOTE: golangci-lint doesn't report multiple errors on the same line from
+  # different linters and just report one of the errors?
+
+  golangci:
+    name: golangci
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v3
+      - name: golangci
+        uses: reviewdog/action-golangci-lint@v2
+        with:
+          # optionally use a specific version of Go rather than the latest one
+          go_version: "1.18"
+          fail_on_error: true
+
+          # Can pass --config flag to change golangci-lint behavior and target directory.
+          golangci_lint_flags: "--config=.github/config/.golangci.yml"

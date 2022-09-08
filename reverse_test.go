@@ -50,9 +50,7 @@ func TestReverse(t *testing.T) {
 	itb = gcf.Reverse(itb)
 	testBeforeAndAfter(t, itb)
 
-	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
-		return gcf.Reverse(itb)
-	})
+	testEmpties(t, gcf.Reverse[int])
 }
 
 func ExampleReverse() {

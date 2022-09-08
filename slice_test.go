@@ -128,7 +128,7 @@ func TestFromSliceImmutable(t *testing.T) {
 			actual := ""
 			it := itb.Iterator()
 			for it.MoveNext() {
-				actual = actual + it.Current()
+				actual += it.Current()
 			}
 			assert.Equal(tt.want, actual)
 		})
@@ -139,7 +139,7 @@ func TestFromSliceImmutable(t *testing.T) {
 		actual := ""
 		it := itb.Iterator()
 		for it.MoveNext() {
-			actual = actual + it.Current()
+			actual += it.Current()
 		}
 		assert.Empty(t, actual)
 	})

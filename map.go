@@ -13,8 +13,8 @@ type mapIterator[T any, R any] struct {
 
 // Map makes Iterable in elements convert by mapFunc.
 //
-//   itbs := gcf.Func([]string{"a", "ab", "abc"})
-//   itbi := gcf.Map(itbs, func(v string) int { return len(v) })
+//	itbs := gcf.Func([]string{"a", "ab", "abc"})
+//	itbi := gcf.Map(itbs, func(v string) int { return len(v) })
 //
 // If mapFunc is nil, return Iterable in zero value elements.
 func Map[T any, R any](itb Iterable[T], mapFunc func(v T) R) Iterable[R] {
@@ -65,13 +65,13 @@ type flatMapIterator[T any, R any] struct {
 
 // FlatMap makes Iterable in elements in slice converted by mapFunc.
 //
-//   itbs := gcf.Func([]string{"a", "ab", "abc"})
-//   itbi := gcf.Map(itbs, func(v string) int[] {
-//       var r := make([]int, 0)
-//       for _, c := range []rune(v) {
-//           r = append(r, int(c))
-//       }
-//   })
+//	itbs := gcf.Func([]string{"a", "ab", "abc"})
+//	itbi := gcf.Map(itbs, func(v string) int[] {
+//	    var r := make([]int, 0)
+//	    for _, c := range []rune(v) {
+//	        r = append(r, int(c))
+//	    }
+//	})
 //
 // If mapFunc is nil, return empty Iterable.
 func FlatMap[T any, R any](itb Iterable[T], mapFunc func(v T) []R) Iterable[R] {

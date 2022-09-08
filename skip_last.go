@@ -8,15 +8,14 @@ type skipLastIterable[T any] struct {
 type skipLastIterator[T any] struct {
 	it    Iterator[T]
 	count int
-	i     int
 	built bool
 	iteratorItem[T]
 }
 
 // SkipLast makes Iterable with elements excepting counted elements from end.
 //
-//   itb := gcf.FromSlice([]{1, 2, 3})
-//   itb = gcf.SkipLast(itb, 2)
+//	itb := gcf.FromSlice([]{1, 2, 3})
+//	itb = gcf.SkipLast(itb, 2)
 //
 // If count is 0, returns original Iterable.
 // If count is negative, raises panic.
@@ -86,8 +85,8 @@ type skipLastWhileIterator[T any] struct {
 
 // SkipLastWhile makes Iterable with elements excepting elements that whileFunc is true from end.
 //
-//   itb := gcf.FromSlice([]{1, 2, 3})
-//   itb = gcf.SkipLastWhile(itb, func(v int) bool { return v <= 2 })
+//	itb := gcf.FromSlice([]{1, 2, 3})
+//	itb = gcf.SkipLastWhile(itb, func(v int) bool { return v <= 2 })
 //
 // If whileFunc is nil, returns original Iterable.
 func SkipLastWhile[T any](itb Iterable[T], whileFunc func(v T) bool) Iterable[T] {
@@ -130,28 +129,28 @@ func (it *skipLastWhileIterator[T]) Current() T {
 }
 
 func (it *skipLastWhileIterator[T]) build() {
-	s := iteratorToSlice(it.it)
-	if len(s) == 0 {
+	slice := iteratorToSlice(it.it)
+	if len(slice) == 0 {
 		it.it = emptyIter[T]()
 		it.built = true
 		return
 	}
-	if !it.whileFunc(s[len(s)-1]) {
-		it.it = makeSliceIterator(s)
+	if !it.whileFunc(slice[len(slice)-1]) {
+		it.it = makeSliceIterator(slice)
 		it.built = true
 		return
 	}
-	sLen := len(s)
-	for i := len(s) - 2; i >= 0; i-- {
-		if !it.whileFunc(s[i]) {
-			s = s[:i+1]
+	sLen := len(slice)
+	for i := sLen - 2; i >= 0; i-- {
+		if !it.whileFunc(slice[i]) {
+			slice = slice[:i+1]
 			break
 		}
 	}
-	if len(s) == sLen {
+	if len(slice) == sLen {
 		it.it = emptyIter[T]()
 	} else {
-		it.it = makeSliceIterator(s)
+		it.it = makeSliceIterator(slice)
 	}
 	it.built = true
 }

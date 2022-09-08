@@ -14,8 +14,8 @@ type skipIterator[T any] struct {
 
 // Skip makes Iterable with elements excepting counted elements from ahead.
 //
-//   itb := gcf.FromSlice([]{1, 2, 3})
-//   itb = gcf.Skip(itb, 2)
+//	itb := gcf.FromSlice([]{1, 2, 3})
+//	itb = gcf.Skip(itb, 2)
 //
 // If count is 0, returns original Iterable.
 // If count is negative, raises panic.
@@ -72,8 +72,8 @@ type skipWhileIterator[T any] struct {
 
 // SkipWhile makes Iterable with elements excepting elements that whileFunc is true from ahead.
 //
-//   itb := gcf.FromSlice([]{1, 2, 3})
-//   itb = gcf.SkipWhile(itb, func(v int) bool { return v <= 2 })
+//	itb := gcf.FromSlice([]{1, 2, 3})
+//	itb = gcf.SkipWhile(itb, func(v int) bool { return v <= 2 })
 //
 // If whileFunc is nil, returns original Iterable.
 func SkipWhile[T any](itb Iterable[T], whileFunc func(v T) bool) Iterable[T] {

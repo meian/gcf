@@ -13,8 +13,8 @@ type filterIterator[T any] struct {
 
 // Filter makes Iterable with elements which filterFunc is true.
 //
-//   itb := gcf.FromSlice([]int{1, 2, 3})
-//   itb = gcf.Filter(itb, func(v int) bool { return v%2 > 0 })
+//	itb := gcf.FromSlice([]int{1, 2, 3})
+//	itb = gcf.Filter(itb, func(v int) bool { return v%2 > 0 })
 //
 // If filterFunc is nil, returns original Iteratable.
 func Filter[T any](itb Iterable[T], filterFunc func(v T) bool) Iterable[T] {
