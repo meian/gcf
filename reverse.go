@@ -12,8 +12,8 @@ type reverseIterator[T any] struct {
 
 // Reverse makes Iterable with reverse order elements.
 //
-//   itb := gcf.FromSlice([]int{1, 2, 3})
-//   itb = gcf.Reverse(itb)
+//	itb := gcf.FromSlice([]int{1, 2, 3})
+//	itb = gcf.Reverse(itb)
 func Reverse[T any](itb Iterable[T]) Iterable[T] {
 	if isEmpty(itb) {
 		return orEmpty(itb)
@@ -52,9 +52,9 @@ func (it *reverseIterator[T]) Current() T {
 
 func (it *reverseIterator[T]) build() {
 	s := iteratorToSlice(it.it)
-	len := len(s)
-	for i := 0; i < len/2; i++ {
-		s[i], s[len-i-1] = s[len-i-1], s[i]
+	slen := len(s)
+	for i := 0; i < slen/2; i++ {
+		s[i], s[slen-i-1] = s[slen-i-1], s[i]
 	}
 	it.it = makeSliceIterator(s)
 	it.built = true

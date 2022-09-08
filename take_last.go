@@ -8,15 +8,14 @@ type takeLastIterable[T any] struct {
 type takeLastIterator[T any] struct {
 	it    Iterator[T]
 	count int
-	i     int
 	built bool
 	iteratorItem[T]
 }
 
 // TakeLast makes Iterable with count elements from end.
 //
-//   itb := gcf.FromSlice([]{1, 2, 3})
-//   itb = gcf.TakeLast(itb, 2)
+//	itb := gcf.FromSlice([]{1, 2, 3})
+//	itb = gcf.TakeLast(itb, 2)
 //
 // If count is 0, returns empty Iterable.
 // If count is negative, raises panic.
@@ -83,8 +82,8 @@ type takeLastWhileIterator[T any] struct {
 
 // TakeLastWhile makes Iterable with elements in which whileFunc is true from end.
 //
-//   itb := gcf.FromSlice([]{1, 2, 3})
-//   itb = gcf.TakeLastWhile(itb, func(v int) bool { return v >= 2 })
+//	itb := gcf.FromSlice([]{1, 2, 3})
+//	itb = gcf.TakeLastWhile(itb, func(v int) bool { return v >= 2 })
 //
 // If whileFunc is nil, returns empty Iterable.
 func TakeLastWhile[T any](itb Iterable[T], whileFunc func(v T) bool) Iterable[T] {
@@ -124,23 +123,23 @@ func (it *takeLastWhileIterator[T]) Current() T {
 }
 
 func (it *takeLastWhileIterator[T]) build() {
-	s := iteratorToSlice(it.it)
-	if len(s) == 0 {
+	slice := iteratorToSlice(it.it)
+	if len(slice) == 0 {
 		it.it = emptyIter[T]()
 		it.built = true
 		return
 	}
-	if !it.whileFunc(s[len(s)-1]) {
+	if !it.whileFunc(slice[len(slice)-1]) {
 		it.it = emptyIter[T]()
 		it.built = true
 		return
 	}
-	for i := len(s) - 2; i >= 0; i-- {
-		if !it.whileFunc(s[i]) {
-			s = s[i+1:]
+	for i := len(slice) - 2; i >= 0; i-- {
+		if !it.whileFunc(slice[i]) {
+			slice = slice[i+1:]
 			break
 		}
 	}
-	it.it = makeSliceIterator(s)
+	it.it = makeSliceIterator(slice)
 	it.built = true
 }

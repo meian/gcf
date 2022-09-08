@@ -14,8 +14,8 @@ type takeIterator[T any] struct {
 
 // Take makes Iterable with count elements from ahead.
 //
-//   itb := gcf.FromSlice([]{1, 2, 3})
-//   itb = gcf.Take(itb, 2)
+//	itb := gcf.FromSlice([]{1, 2, 3})
+//	itb = gcf.Take(itb, 2)
 //
 // If count is 0, returns empty Iterable.
 // If count is negative, raises panic.
@@ -73,8 +73,8 @@ type takeWhileIterator[T any] struct {
 
 // TakeWhile makes Iterable with elements in which whileFunc is true from ahead.
 //
-//   itb := gcf.FromSlice([]{1, 2, 3})
-//   itb = gcf.TakeWhile(itb, func(v int) bool { return v <= 2 })
+//	itb := gcf.FromSlice([]{1, 2, 3})
+//	itb = gcf.TakeWhile(itb, func(v int) bool { return v <= 2 })
 //
 // If whileFunc is nil, returns empty Iterable.
 func TakeWhile[T any](itb Iterable[T], whileFunc func(v T) bool) Iterable[T] {

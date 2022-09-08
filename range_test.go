@@ -140,11 +140,11 @@ func TestRange(t *testing.T) {
 	itb, _ = gcf.Range(3, 1, -1)
 	testBeforeAndAfter(t, itb)
 
-	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(_ gcf.Iterable[int]) gcf.Iterable[int] {
 		itb, _ = gcf.Range(1, 0, 1)
 		return itb
 	})
-	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
+	testEmpties(t, func(_ gcf.Iterable[int]) gcf.Iterable[int] {
 		itb, _ = gcf.Range(1, 2, -1)
 		return itb
 	})

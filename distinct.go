@@ -13,8 +13,8 @@ type distinctIterator[T comparable] struct {
 // Distinct makes Iterable contains unique elements.
 // Inner elements is restrict by comparable constraint.
 //
-//   itb := gcf.FromSlice([]int{1, 2, 3, 3, 4, 2, 5})
-//   itb = gcf.Distinct(itb)
+//	itb := gcf.FromSlice([]int{1, 2, 3, 3, 4, 2, 5})
+//	itb = gcf.Distinct(itb)
 //
 // Currently, result order is determined, but on spec, is undefined.
 func Distinct[T comparable](itb Iterable[T]) Iterable[T] {

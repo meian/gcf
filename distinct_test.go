@@ -57,9 +57,7 @@ func TestDistinct(t *testing.T) {
 	itb = gcf.Distinct(itb)
 	testBeforeAndAfter(t, itb)
 
-	testEmpties(t, func(itb gcf.Iterable[int]) gcf.Iterable[int] {
-		return gcf.Distinct(itb)
-	})
+	testEmpties(t, gcf.Distinct[int])
 }
 
 func ExampleDistinct() {
