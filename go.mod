@@ -3,7 +3,7 @@ module github.com/meian/gcf
 go 1.18
 
 require (
-	github.com/stretchr/testify v1.8.2
+	github.com/stretchr/testify v1.8.3
 	golang.org/x/exp v0.0.0-20220907003533-145caa8ea1d0
 )
 
